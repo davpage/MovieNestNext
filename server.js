@@ -15,12 +15,12 @@ const SENDER_EMAIL = process.env.SENDER_EMAIL;
 const SENDER_PASSWORD = process.env.SENDER_PASSWORD;
 
 const pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT,
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false, // Railway-ում SSL պարտադիր է
+    },
 });
+
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.mail.ru',
