@@ -1,41 +1,35 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import Link from 'next/link';
 
-export default function Register() {
+export default function ResetPassword() {
     const { t } = useTranslation();
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [code, setCode] = useState('');
-    const [userId, setUserId] = useState(null);
+    const [newPassword, setNewPassword] = useState('');
+    const [email, setEmail] = useState(''); // Եթե email-ը չի փոխանցվում URL-ով
+    const [userId, setUserId] = useState(null); // Եթե userId-ն չի փոխանցվում URL-ով
     const [error, setError] = useState('');
-    const [step, setStep] = useState('register');
+    const [success, setSuccess] = useState(false);
     const [isLoading, setIsLoading] = useState(false); // Նոր state loading-ի համար
 
-    useEffect(() => {
-        const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-        document.documentElement.classList.toggle('dark', savedDarkMode);
-    }, []);
-
-    const handleRegister = async (e) => {
+    const handleResetPassword = async (e) => {
         e.preventDefault();
         setIsLoading(true); // Սկսել loading-ը
         setError(''); // Մաքրել նախորդ սխալը
         try {
-            const response = await fetch('/api/register', {
+            const response = await fetch('/api/reset-password', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, password }),
+                body: JSON.stringify({ userId, code, newPassword, email }), // Email-ը ավելացվել է, եթե backend-ը պահանջում է
             });
             const data = await response.json();
             if (response.ok) {
-                setUserId(data.userId);
-                setStep('verify');
+                setSuccess(true);
+                setError('');
             } else {
-                setError(data.error || t('registerFailed'));
+                setError(data.error || t('resetFailed'));
             }
         } catch (error) {
             setError(t('somethingWentWrong'));
@@ -44,51 +38,28 @@ export default function Register() {
         }
     };
 
-    const handleVerify = async (e) => {
-        e.preventDefault();
-        setIsLoading(true);
-        setError('');
-        try {
-            const response = await fetch('/api/verify', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId, code }),
-            });
-            const data = await response.json();
-            if (response.ok) {
-                localStorage.setItem('token', data.token);
-                window.location.href = '/';
-            } else {
-                setError(data.error || t('verificationFailed'));
-            }
-        } catch (error) {
-            setError(t('somethingWentWrong'));
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
     return (
         <div className="bg-gray-100 dark:bg-gray-900 flex flex-col h-[calc(100vh_-_75px)]">
             <div className="flex-grow flex items-center justify-center p-4">
                 <div className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8 w-full max-w-md border border-gray-200 dark:border-gray-700">
                     <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center">
-                        {step === 'register' ? t('register') : t('verify')}
+                        {t('resetPassword')}
                     </h1>
 
-                    {step === 'register' ? (
-                        <form onSubmit={handleRegister} className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    {t('name')}
-                                    <input
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                        required
-                                        className="mt-1 block w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-100 transition-all duration-200"
-                                    />
-                                </label>
-                            </div>
+                    {success ? (
+                        <div className="text-center">
+                            <p className="text-green-500 dark:text-green-400 text-lg mb-4">
+                                {t('passwordResetSuccess')}
+                            </p>
+                            <Link
+                                href="/login"
+                                className="text-indigo-600 dark:text-indigo-400 hover:underline"
+                            >
+                                {t('backToLogin')}
+                            </Link>
+                        </div>
+                    ) : (
+                        <form onSubmit={handleResetPassword} className="space-y-6">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                     {t('email')}
@@ -102,60 +73,7 @@ export default function Register() {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    {t('password')}
-                                    <input
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                        className="mt-1 block w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-100 transition-all duration-200"
-                                    />
-                                </label>
-                            </div>
-                            {error && <p className="text-red-500 dark:text-red-400 text-sm text-center">{error}</p>}
-                            <button
-                                type="submit"
-                                disabled={isLoading}
-                                className={`w-full py-2 px-4 rounded-md text-white transition-colors duration-200 ${
-                                    isLoading
-                                        ? 'bg-indigo-400 cursor-not-allowed'
-                                        : 'bg-indigo-600 hover:bg-indigo-700 dark:hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500'
-                                }`}
-                            >
-                                {isLoading ? (
-                                    <span className="flex items-center justify-center">
-                                        <svg
-                                            className="animate-spin h-5 w-5 mr-2 text-white"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <circle
-                                                className="opacity-25"
-                                                cx="12"
-                                                cy="12"
-                                                r="10"
-                                                stroke="currentColor"
-                                                strokeWidth="4"
-                                            />
-                                            <path
-                                                className="opacity-75"
-                                                fill="currentColor"
-                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                                            />
-                                        </svg>
-                                        {t('loading')}
-                                    </span>
-                                ) : (
-                                    t('registerButton')
-                                )}
-                            </button>
-                        </form>
-                    ) : (
-                        <form onSubmit={handleVerify} className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    {t('verificationCode')}
+                                    {t('resetCode')}
                                     <input
                                         value={code}
                                         onChange={(e) => setCode(e.target.value)}
@@ -164,6 +82,18 @@ export default function Register() {
                                     />
                                 </label>
                             </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                                    {t('newPassword')}
+                                    <input
+                                        type="password"
+                                        value={newPassword}
+                                        onChange={(e) => setNewPassword(e.target.value)}
+                                        required
+                                        className="mt-1 block w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:bg-gray-700 dark:text-gray-100 transition-all duration-200"
+                                    />
+                                </label>
+                            </div>
                             {error && <p className="text-red-500 dark:text-red-400 text-sm text-center">{error}</p>}
                             <button
                                 type="submit"
@@ -199,16 +129,15 @@ export default function Register() {
                                         {t('loading')}
                                     </span>
                                 ) : (
-                                    t('verifyButton')
+                                    t('resetPasswordButton')
                                 )}
                             </button>
                         </form>
                     )}
 
                     <p className="mt-6 text-center text-gray-600 dark:text-gray-300">
-                        {t('alreadyRegistered')}{' '}
                         <Link href="/login" className="text-indigo-600 dark:text-indigo-400 hover:underline">
-                            {t('loginButton')}
+                            {t('backToLogin')}
                         </Link>
                     </p>
                 </div>

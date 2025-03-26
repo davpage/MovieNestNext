@@ -42,7 +42,7 @@ export default function User() {
             if (!response.ok) throw new Error(t('fetchUserFailed'));
             const data = await response.json();
             setUser(data);
-            setName(data.name);
+            setName(data.name); // Սկզբնական անունը սահմանվում է այստեղ
         } catch (error) {
             console.error('Error fetching user:', error);
             router.push('/login');
@@ -60,13 +60,15 @@ export default function User() {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ name, password: password || undefined }), // password-ը կամայական է
+                body: JSON.stringify({ name, password: password || undefined }),
             });
             if (response.ok) {
-                const updatedUser = await response.json();
-                setUser(updatedUser);
-                setEditing(false);
-                setPassword(''); // Մաքրել գաղտնաբառը
+                const { user: updatedUser, token: newToken } = await response.json(); // Ստանում ենք user-ը և token-ը
+                setUser(updatedUser); // Թարմացնում ենք user state-ը
+                setName(updatedUser.name); // Թարմացնում ենք name state-ը
+                if (newToken) localStorage.setItem('token', newToken); // Թարմացնում ենք token-ը, եթե այն վերադարձվել է
+                setEditing(false); // Դուրս ենք գալիս խմբագրումից
+                setPassword(''); // Մաքրում ենք գաղտնաբառը
             } else {
                 throw new Error(t('updateFailed'));
             }
@@ -93,11 +95,6 @@ export default function User() {
         } catch (error) {
             console.error('Error deleting user:', error);
         }
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        router.push('/login');
     };
 
     // Wait for darkMode and user to initialize to avoid hydration mismatch
@@ -130,7 +127,7 @@ export default function User() {
                             </label>
                         </div>
                         <div>
-                            <label className="block text-sm=myData font-medium text-gray-700 dark:text-gray-300">
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
                                 {t('newPasswordOptional')}
                                 <input
                                     type="password"
@@ -149,7 +146,11 @@ export default function User() {
                             </button>
                             <button
                                 type="button"
-                                onClick={() => setEditing(false)}
+                                onClick={() => {
+                                    setEditing(false);
+                                    setName(user.name); // Վերականգնել սկզբնական անունը
+                                    setPassword(''); // Մաքրել գաղտնաբառը
+                                }}
                                 className="flex-1 bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 dark:hover:bg-gray-400"
                             >
                                 {t('cancel')}
