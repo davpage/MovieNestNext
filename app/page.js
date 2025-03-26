@@ -39,8 +39,5 @@ export default function Home() {
         return null;
     }
 
-    return <div>
-
-    </div>
-    // <iframe className='w-full h-[calc(100vh_-_75px)]' src="https://movienest.live/"></iframe>
+    return <iframe className='w-full h-[calc(100vh_-_75px)]' src="https://movienest.live/"></iframe>
 }
