@@ -2,7 +2,8 @@ import './globals.css';
 import {Inter} from 'next/font/google';
 import I18nProvider from '../lib/I18nProvider';
 import Header from "@/components/Header"; // Նոր կոմպոնենտ
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from '@vercel/analytics/react';
 const inter = Inter({subsets: ['latin']});
 
 export const metadata = {
@@ -17,6 +18,8 @@ export default function RootLayout({children}) {
         <I18nProvider>
             <Header/>
             {children}
+            <Analytics />
+            <SpeedInsights />
         </I18nProvider>
         </body>
         </html>
