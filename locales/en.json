@@ -46,5 +46,23 @@
   "alreadyRegistered": "Already registered?",
   "registerFailed": "Registration failed",
 
-  "loading": "Loading..."
+  "loading": "Loading...",
+
+  "category": "Categories",
+  "product": "Products",
+  "menu": "Menu",
+  "welcome_message": "Welcome to our website. This is your home page where you can find the most important information.",
+  "explore_categories": "Explore Categories",
+  "explore_categories_desc": "Check out our list of categories and choose what interests you.",
+  "view_products": "View Products",
+  "view_products_desc": "Discover our product selection and find your favorite.",
+  "category_intro": "Select a category to view our offered products.",
+  "product_intro": "Browse our product list and pick your preferred items.",
+  "electronics": "Electronics",
+  "clothing": "Clothing",
+  "books": "Books",
+  "phone": "Phone",
+  "shirt": "Shirt",
+  "book": "Book",
+  "price": "Price"
 }

@@ -18,7 +18,7 @@ export const metadata = {
         siteName: 'MovieNest',
         images: [
             {
-                url: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bW92aWUlMjBiYWNrZ3JvdW5kfGVufDB8fDB8fHww', // Ձեր պատկերի URL-ը
+                url: 'https://thumb.cloud.mail.ru/thumb/xw1/ChatGPT%20Image%205%20%D0%B0%D0%BF%D1%80.%202025%20%D0%B3.%2C%2001_02_17.png', // Ձեր պատկերի URL-ը
                 width: 1200, // Լայնությունը պիքսելներով
                 height: 630, // Բարձրությունը պիքսելներով
                 alt: 'MovieNest - Ձեր կինոյի աշխարհը',
