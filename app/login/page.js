@@ -50,7 +50,7 @@ export default function Login() {
         setIsLoading(true);
         setError('');
         try {
-            const response = await fetch('/api/verify', {
+            const response = await fetch('/api/verify-code', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ userId, code }),

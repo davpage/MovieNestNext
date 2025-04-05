@@ -20,12 +20,20 @@ export async function POST(req) {
         if (!user) {
             return NextResponse.json({ error: 'Invalid reset code' }, { status: 400 });
         }
+
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        await pool.query(
-            'UPDATE users SET password = $1, verification_code = NULL WHERE id = $2 RETURNING id, name, email',
+        const updateResult = await pool.query(
+            'UPDATE users SET password = $1, verification_code = NULL, is_verified = TRUE WHERE id = $2 RETURNING id, name, email',
             [hashedPassword, userId]
         );
-        const token = jwt.sign({ id: user.id, email: user.email, name: user.name }, JWT_SECRET, { expiresIn: '1h' });
+
+        const updatedUser = updateResult.rows[0];
+        const token = jwt.sign(
+            { id: updatedUser.id, email: updatedUser.email, name: updatedUser.name },
+            JWT_SECRET,
+            { expiresIn: '1h' }
+        );
+
         return NextResponse.json({ message: 'Password reset successful', token });
     } catch (error) {
         return NextResponse.json({ error: 'Could not reset password' }, { status: 500 });

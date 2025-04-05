@@ -1,12 +1,12 @@
-import { NextResponse } from 'next/server';
-import { Pool } from 'pg';
+import {NextResponse} from 'next/server';
+import {Pool} from 'pg';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
+    ssl: {rejectUnauthorized: false},
 });
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -17,7 +17,7 @@ const transporter = nodemailer.createTransport({
     host: 'smtp.mail.ru',
     port: 465,
     secure: true,
-    auth: { user: SENDER_EMAIL, pass: SENDER_PASSWORD },
+    auth: {user: SENDER_EMAIL, pass: SENDER_PASSWORD},
 });
 
 const generateCode = () => Math.floor(100000 + Math.random() * 900000).toString();
@@ -30,25 +30,19 @@ const withCors = (response) => {
 };
 
 export async function POST(req) {
-    const { email, password } = await req.json();
+    const {email, password} = await req.json();
     try {
         if (!email || !password) {
-            return withCors(NextResponse.json({ error: 'Email and password are required' }, { status: 400 }));
+            return withCors(NextResponse.json({error: 'Email and password are required'}, {status: 400}));
         }
 
         const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
         const user = result.rows[0];
 
         if (!user || !(await bcrypt.compare(password, user.password))) {
-            return withCors(NextResponse.json({ error: 'Invalid credentials' }, { status: 401 }));
+            return withCors(NextResponse.json({error: 'Invalid credentials'}, {status: 401}));
         }
 
-        // Ստուգել, արդյոք օգտատերը admin է
-        if (!user.admin) {
-            return withCors(NextResponse.json({ error: 'Forbidden: Admin access required' }, { status: 403 }));
-        }
-
-        // Ստուգել, արդյոք օգտատերը հաստատված է
         if (!user.is_verified) {
             const verificationCode = generateCode();
             await pool.query('UPDATE users SET verification_code = $1 WHERE id = $2', [verificationCode, user.id]);
@@ -90,19 +84,18 @@ export async function POST(req) {
             );
         }
 
-        // Եթե օգտատերը admin է և հաստատված, ստեղծել token
         const token = jwt.sign(
-            { id: user.id, email: user.email, name: user.name, admin: user.admin },
+            {id: user.id, email: user.email, name: user.name, admin: user.admin},
             JWT_SECRET,
-            { expiresIn: '1h' }
+            {expiresIn: '1h'}
         );
-        return withCors(NextResponse.json({ message: 'Login successful', token }));
+        return withCors(NextResponse.json({message: 'Login successful', token}));
     } catch (error) {
         console.error('Error in login:', error);
-        return withCors(NextResponse.json({ error: 'Login failed', details: error.message }, { status: 500 }));
+        return withCors(NextResponse.json({error: 'Login failed', details: error.message}, {status: 500}));
     }
 }
 
 export async function OPTIONS() {
-    return withCors(NextResponse.json({}, { status: 200 }));
+    return withCors(NextResponse.json({}, {status: 200}));
 }
