@@ -166,16 +166,7 @@ export default function Header() {
                         </li>
                         <li>
                             <Link
-                                href="/category"
-                                className="text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
-                                onClick={() => setSidebarOpen(false)}
-                            >
-                                {t('category')}
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/product"
+                                href="/products"
                                 className="text-gray-700 dark:text-gray-200 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-200"
                                 onClick={() => setSidebarOpen(false)}
                             >
