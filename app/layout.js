@@ -8,24 +8,45 @@ const inter = Inter({ subsets: ['latin'] });
 
 // Մետա տվյալներ Open Graph-ով
 export const metadata = {
-    title: 'MovieNest', // Ձեր կայքի վերնագիրը
-    description: 'Ձեր կինոյի աշխարհը - ֆիլմեր, սերիալներ և ավելին', // Ձեր կայքի նկարագրությունը
+    title: 'MovieNest | Ֆիլմեր և սերիալներ առցանց հայերենով',
+    description: 'Դիտեք նորագույն ֆիլմեր և սերիալներ անվճար, առանց գրանցման, հայերեն թարգմանությամբ կամ ենթագրերով։ MovieNest.live — Ձեր կինոյի աշխարհը։',
+    keywords: [
+        'ֆիլմեր', 'սերիալներ', 'դիտել ֆիլմ', 'հայերեն ֆիլմեր', 'ֆիլմեր առցանց',
+        'անվճար ֆիլմեր', 'նոր ֆիլմեր', 'հայերեն սուբտիտրներ', 'սերիալներ հայերենով',
+        'movies', 'watch movies online', 'free movies', 'armenian movies', 'armenian series',
+        'watch series online', 'latest movies', 'armenian subtitles', 'MovieNest',
+        'фильмы', 'смотреть фильмы онлайн', 'бесплатные фильмы', 'армянские фильмы',
+        'армянские сериалы', 'фильмы с субтитрами', 'новые фильмы', 'MovieNest','filmer','film','kino','kinoner','ditel','online'
+    ],
+    authors: [{ name: 'MovieNest', url: 'https://movienest.live' }],
     openGraph: {
-        title: 'MovieNest',
-        description: 'Ձեր կինոյի աշխարհը - ֆիլմեր, սերիալներ և ավելին',
-        url: 'https://movienest.live', // Ձեր կայքի URL-ը
+        title: 'MovieNest | Ֆիլմեր և սերիալներ առցանց հայերենով',
+        description: 'Դիտեք նոր ֆիլմեր և սերիալներ MovieNest.live կայքում։ Առանց գովազդի, առանց գրանցման։',
+        url: 'https://movienest.live',
         siteName: 'MovieNest',
         images: [
             {
-                url: 'https://thumb.cloud.mail.ru/thumb/xw1/ChatGPT%20Image%205%20%D0%B0%D0%BF%D1%80.%202025%20%D0%B3.%2C%2001_02_17.png', // Ձեր պատկերի URL-ը
-                width: 1200, // Լայնությունը պիքսելներով
-                height: 630, // Բարձրությունը պիքսելներով
-                alt: 'MovieNest - Ձեր կինոյի աշխարհը',
+                url: 'https://thumb.cloud.mail.ru/thumb/xw1/ChatGPT%20Image%205%20%D0%B0%D0%BF%D1%80.%202025%20%D0%B3.%2C%2001_02_17.png',
+                width: 1200,
+                height: 630,
+                alt: 'MovieNest - Ֆիլմեր և սերիալներ հայերենով',
             },
         ],
-        locale: 'hy_AM', // Լեզուն (Հայերենի համար)
+        locale: 'hy_AM',
         type: 'website',
+        alternateLocales: ['en_US', 'ru_RU'],
     },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'MovieNest | Armenian Movies & Series Online | Фильмы и сериалы на армянском',
+        description: 'Watch the latest movies and series online in Armenian. Бесплатно смотрите фильмы и сериалы на армянском языке на сайте MovieNest.live.',
+        images: [
+            'https://thumb.cloud.mail.ru/thumb/xw1/ChatGPT%20Image%205%20%D0%B0%D0%BF%D1%80.%202025%20%D0%B3.%2C%2001_02_17.png'
+        ],
+    },
+    robots: 'index, follow',
+    viewport: 'width=device-width, initial-scale=1',
+    charset: 'utf-8',
 };
 
 export default function RootLayout({ children }) {
