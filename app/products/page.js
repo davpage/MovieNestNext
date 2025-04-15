@@ -1,4 +1,5 @@
 import ProductList from '@/components/ProductList';
+import Header from "@/components/Header";
 
 export const metadata = {
     title: 'Products - MovieNest',
@@ -6,5 +7,11 @@ export const metadata = {
 };
 
 export default function ProductsPage() {
-    return <ProductList />;
+
+    return (
+        <>
+            <Header/>
+
+            <ProductList /></>
+    );
 }

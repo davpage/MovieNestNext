@@ -1,7 +1,6 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import I18nProvider from '../lib/I18nProvider';
-import Header from "@/components/Header";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from '@vercel/analytics/react';
 
@@ -32,12 +31,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en" className="dark">
+        <head>
+            <link rel="manifest" href="/manifest.json"/>
+        </head>
         <body className={`min-h-screen bg-gray-100 dark:bg-gray-900 transition-all duration-500 ${inter.className}`}>
         <I18nProvider>
-            <Header />
+            {/*<Header />*/}
             {children}
-            <Analytics />
-            <SpeedInsights />
+            <Analytics/>
+            <SpeedInsights/>
         </I18nProvider>
         </body>
         </html>
