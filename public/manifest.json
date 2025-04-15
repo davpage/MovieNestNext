@@ -3,17 +3,18 @@
   "name": "MovieNest",
   "description": "Stream and download movies.",
   "icons": [
-      {
-          "src": "https://thumb.cloud.mail.ru/weblink/thumb/xw1/pQpq/Xcj6Q4yAS",
-          "sizes": "192x192",
-          "type": "image/png"
-      },
-      {
-          "src": "https://thumb.cloud.mail.ru/weblink/thumb/xw1/guM2/V6XLC5B2H",
-          "sizes": "512x512",
-          "type": "image/png"
-      }
+    {
+      "src": "icons/movienest_icon_192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/movienest_icon_512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
   ],
+
   "start_url": "/",
   "background_color": "#000000",
   "display": "standalone",
