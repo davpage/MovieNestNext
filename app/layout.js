@@ -26,7 +26,7 @@ export const metadata = {
         siteName: 'MovieNest',
         images: [
             {
-                url: 'https://thumb.cloud.mail.ru/thumb/xw1/ChatGPT%20Image%205%20%D0%B0%D0%BF%D1%80.%202025%20%D0%B3.%2C%2001_02_17.png',
+                url: 'https://thumb.cloud.mail.ru/weblink/thumb/xw1/EnV1/gBfsMpWr2',
                 width: 1200,
                 height: 630,
                 alt: 'MovieNest - Ֆիլմեր և սերիալներ հայերենով',
@@ -41,7 +41,7 @@ export const metadata = {
         title: 'MovieNest | Armenian Movies & Series Online | Фильмы и сериалы на армянском',
         description: 'Watch the latest movies and series online in Armenian. Бесплатно смотрите фильмы и сериалы на армянском языке на сайте MovieNest.live.',
         images: [
-            'https://thumb.cloud.mail.ru/thumb/xw1/ChatGPT%20Image%205%20%D0%B0%D0%BF%D1%80.%202025%20%D0%B3.%2C%2001_02_17.png'
+            'https://thumb.cloud.mail.ru/weblink/thumb/xw1/EnV1/gBfsMpWr2'
         ],
     },
     robots: 'index, follow',
