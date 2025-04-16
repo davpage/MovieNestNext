@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import I18nProvider from '../lib/I18nProvider';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from '@vercel/analytics/react';
+import PwaInstallModal from "@/components/PwaInstallModal";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -58,6 +59,7 @@ export default function RootLayout({ children }) {
         <body className={`min-h-screen bg-gray-100 dark:bg-gray-900 transition-all duration-500 ${inter.className}`}>
         <I18nProvider>
             {/*<Header />*/}
+            <PwaInstallModal />
             {children}
             <Analytics/>
             <SpeedInsights/>
