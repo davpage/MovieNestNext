@@ -8,8 +8,13 @@ export default async function handler(req, res) {
     if (!res.socket.server.io) {
         const io = new Server(res.socket.server, {
             path: "/api/socket",
-            cors: { origin: "*" },
+            cors: {
+                origin: "*",
+                methods: ["GET", "POST"],
+                credentials: true
+            },
             pingTimeout: 5000,
+            pingInterval:2000
         });
 
         io.on("connection", async (socket) => {
