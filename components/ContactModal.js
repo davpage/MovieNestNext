@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import {useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
 import emailjs from '@emailjs/browser';
+import UserList from "@/app/UserList";
+import useUserList from "@/app/UserList";
 
 export default function ContactModal() {
     const [name, setName] = useState('');
@@ -11,7 +13,7 @@ export default function ContactModal() {
     const [rating, setRating] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const {count} = useUserList()
     // Ստեղնաշարով նավիգացիա (Esc ստեղնով փակել)
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -54,7 +56,7 @@ export default function ContactModal() {
             await emailjs.send(
                 'geuphmh',
                 'l6p2mq8222',
-                { name, email, message, rating },
+                {name, email, message, rating},
                 'Xh3WhTefsno6bxN5J'
             );
             Swal.fire({
@@ -99,7 +101,10 @@ export default function ContactModal() {
                     >
                         ×
                     </button>
-                    <h2 className="text-xl sm:text-2xl mb-3 text-white sm:mb-4">Contact Us</h2>
+                    <div className='flex justify-between w-[95%]'>
+                        <h2 className="text-xl sm:text-2xl mb-3 text-white sm:mb-4">Contact Us</h2>
+                        <p className='text-white'>Online Users - {count}</p>
+                    </div>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:gap-4">
                         <input
                             type="text"
@@ -135,8 +140,8 @@ export default function ContactModal() {
                                         } hover:text-yellow-400 transition-transform hover:scale-110`}
                                         onClick={() => setRating(value)}
                                     >
-                    ★
-                  </span>
+                                      ★
+                                    </span>
                                 ))}
                             </div>
                             <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-[#808080]">
@@ -150,7 +155,8 @@ export default function ContactModal() {
                         >
                             {isSubmitting ? (
                                 <>
-                                    <span className="border-2 border-white/30 border-t-white rounded-full w-4 h-4 sm:w-5 sm:h-5 animate-spin mr-2" />
+                                    <span
+                                        className="border-2 border-white/30 border-t-white rounded-full w-4 h-4 sm:w-5 sm:h-5 animate-spin mr-2"/>
                                     Sending...
                                 </>
                             ) : (

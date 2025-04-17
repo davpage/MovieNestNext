@@ -4,6 +4,7 @@ import I18nProvider from '../lib/I18nProvider';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from '@vercel/analytics/react';
 import PwaInstallModal from "@/components/PwaInstallModal";
+import UserList from "@/app/UserList";
 
 const inter = Inter({ subsets: ['latin'] });
 

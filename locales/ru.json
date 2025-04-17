@@ -68,5 +68,29 @@
   "page_not_found": "Страница не найдена",
   "not_found_message": "Извините, но страница, которую вы ищете, не существует или была перемещена.",
   "back_to_home": "Вернуться на главную",
-  "website_name": "Мой Сайт"
+  "website_name": "Мой Сайт",
+  "sessionID": "ID сессии",
+  "ip": "IP адрес",
+  "country": "Страна",
+  "city": "Город",
+  "deviceType": "Тип устройства",
+  "language": "Язык",
+  "timezone": "Часовой пояс",
+  "referrer": "Источник перехода",
+  "userAgent": "User Agent",
+  "isp": "Провайдер",
+  "proxy": "Прокси",
+  "bot": "Бот",
+  "tabs": "Открытые вкладки",
+  "visitDateTime": "Время входа",
+  "visitDuration": "Продолжительность визита",
+  "connectTime": "Время подключения",
+  "gpsLocation": "GPS координаты",
+  "gpsCity": "Город по GPS",
+  "screenResolution": "Разрешение экрана",
+  "theme": "Тема"
+
+
+
 }
+

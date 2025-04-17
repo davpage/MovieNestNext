@@ -7,11 +7,12 @@ import {jwtDecode} from 'jwt-decode';
 import {useTranslation} from 'react-i18next';
 import {HiMenu} from 'react-icons/hi';
 import Logo from '@/components/Logo';
+import LocaleSwitcher from "@/components/LocaleSwitcher";
 
 export default function Header() {
     const router = useRouter();
     const pathname = usePathname();
-    const {t, i18n} = useTranslation();
+    const {t} = useTranslation();
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [darkMode, setDarkMode] = useState(null);
     const [userName, setUserName] = useState('');
@@ -59,7 +60,6 @@ export default function Header() {
     const toggleDropdown = () => setDropdownOpen((prev) => !prev);
     const toggleSidebar = () => setSidebarOpen((prev) => !prev);
 
-    const changeLanguage = (lng) => i18n.changeLanguage(lng);
 
     const toggleDarkMode = () => {
         setDarkMode((prev) => {
@@ -87,21 +87,8 @@ export default function Header() {
                 )}
 
                 <div className="flex items-center space-x-6">
-                    <div className="flex space-x-2">
-                        {['en', 'ru', 'am'].map((lang) => (
-                            <button
-                                key={lang}
-                                onClick={() => changeLanguage(lang)}
-                                className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${
-                                    i18n.language === lang
-                                        ? 'bg-indigo-600 text-white'
-                                        : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 hover:bg-indigo-500 hover:text-white dark:hover:bg-indigo-600'
-                                }`}
-                            >
-                                {lang.toUpperCase()}
-                            </button>
-                        ))}
-                    </div>
+                    <LocaleSwitcher/>
+
 
                     <button
                         onClick={toggleDarkMode}

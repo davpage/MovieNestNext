@@ -10,6 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@emailjs/browser": "^3.11.0",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.8.4",
@@ -26,9 +27,10 @@
     "react-dom": "^19.0.0",
     "react-i18next": "^15.4.1",
     "react-icons": "^5.5.0",
+    "socket.io": "^4.8.1",
     "socket.io-client": "^4.8.1",
     "sweetalert2": "^11.12.4",
-    "@emailjs/browser": "^3.11.0"
+    "ua-parser-js": "^2.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

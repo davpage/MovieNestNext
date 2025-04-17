@@ -68,5 +68,29 @@
     "page_not_found": "Էջը չի գտնվել",
     "not_found_message": "Կներեք, բայց Ձեր փնտրած էջը գոյություն չունի կամ տեղափոխվել է:",
     "back_to_home": "Վերադառնալ Գլխավոր էջ",
-    "website_name": "Իմ Կայք"
+    "website_name": "Իմ Կայք",
+
+    "online": "Օնլայն Օգտատերեր",
+    "sessionID": "Սեսիայի ID",
+    "ip": "IP հասցե",
+    "country": "Երկիր",
+    "city": "Քաղաք",
+    "deviceType": "Սարքի տեսակը",
+    "language": "Լեզու",
+    "timezone": "Ժամային գոտի",
+    "referrer": "Ուղարկող հղում",
+    "userAgent": "User Agent",
+    "isp": "Ինտերնետ պրովայդեր",
+    "proxy": "Պրոքսի",
+    "bot": "Բոտ",
+    "tabs": "Բացված ներդիրներ",
+    "visitDateTime": "Մուտքի ժամ",
+    "visitDuration": "Մուտքի տևողություն",
+    "connectTime": "Կապի սկիզբ",
+    "gpsLocation": "GPS դիրք",
+    "gpsCity": "GPS քաղաք",
+    "screenResolution": "Էկրանի թույլատրելիություն",
+    "theme": "Թեմա"
+
+
 }
