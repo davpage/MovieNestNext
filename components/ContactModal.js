@@ -103,7 +103,7 @@ export default function ContactModal() {
                     </button>
                     <div className='flex justify-between w-[95%]'>
                         <h2 className="text-xl sm:text-2xl mb-3 text-white sm:mb-4">Contact Us</h2>
-                        <p className='text-white'>Online Users - {count}</p>
+                        <p className='text-white'>{!!count && `Online Users - ${count}`}</p>
                     </div>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:gap-4">
                         <input
