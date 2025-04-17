@@ -6,7 +6,6 @@ import {UAParser} from "ua-parser-js";
 export default function useUserList() {
     const [count, setCount] = useState(0);
     const [users, setUsers] = useState([]);
-console.log(users)
 
     useEffect(() => {
         let sessionID = localStorage.getItem("sessionID");
@@ -16,10 +15,10 @@ console.log(users)
             localStorage.setItem("sessionID", sessionID);
         }
 
-        const socket = io({ path: "/api/socket", query: { sessionID } });
+        // const socket = io({ path: "/api/socket", query: { sessionID } });    // jamanakavor
 
-        socket.on("userCount", (count) => setCount(count));
-        socket.on("updateUsers", (users) => setUsers(users));
+        // socket.on("userCount", (count) => setCount(count));    // jamanakavor
+        // socket.on("updateUsers", (users) => setUsers(users));  // jamanakavor
 
         // ✨ Բռնում ենք device info + gps
         const parser = new UAParser();
@@ -41,27 +40,28 @@ console.log(users)
                 (pos) => {
                     const { latitude, longitude } = pos.coords;
                     clientData.gpsLocation = { latitude, longitude };
-                    socket.emit("clientData", clientData);
+                    // socket.emit("clientData", clientData);       // jamanakavor
                 },
                 (err) => {
                     console.warn("GPS չի հաջողվել:", err.message);
-                    socket.emit("clientData", clientData);
+                    // socket.emit("clientData", clientData);          // jamanakavor
                 },
                 { enableHighAccuracy: true, timeout: 5000 }
             );
         } else {
-            socket.emit("clientData", clientData);
+
+            // socket.emit("clientData", clientData);  // jamanakavor
         }
 
         const handleDisconnect = () => {
-            socket.emit("manualDisconnect");
+            // socket.emit("manualDisconnect");  // jamanakavor
         };
 
         window.addEventListener("beforeunload", handleDisconnect);
 
         return () => {
             window.removeEventListener("beforeunload", handleDisconnect);
-            socket.disconnect();
+            // socket.disconnect();             // jamanakavor
         };
     }, []);
 
