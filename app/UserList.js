@@ -6,6 +6,7 @@ import {UAParser} from "ua-parser-js";
 export default function useUserList() {
     const [count, setCount] = useState(0);
     const [users, setUsers] = useState([]);
+console.log(users)
 
     useEffect(() => {
         let sessionID = localStorage.getItem("sessionID");
