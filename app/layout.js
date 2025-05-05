@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import I18nProvider from '../lib/I18nProvider';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from '@vercel/analytics/react';
+import PwaInstallModal from "@/components/PwaInstallModal";
+import UserList from "@/app/UserList";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,7 +28,7 @@ export const metadata = {
         siteName: 'MovieNest',
         images: [
             {
-                url: 'https://thumb.cloud.mail.ru/thumb/xw1/ChatGPT%20Image%205%20%D0%B0%D0%BF%D1%80.%202025%20%D0%B3.%2C%2001_02_17.png',
+                url: 'https://thumb.cloud.mail.ru/weblink/thumb/xw1/EnV1/gBfsMpWr2',
                 width: 1200,
                 height: 630,
                 alt: 'MovieNest - Ֆիլմեր և սերիալներ հայերենով',
@@ -41,7 +43,7 @@ export const metadata = {
         title: 'MovieNest | Movies & Series | Фильмы и сериалы',
         description: 'Watch or download the latest movies and series online. Бесплатно смотрите фильмы и сериалы на сайте MovieNest.live.',
         images: [
-            'https://thumb.cloud.mail.ru/thumb/xw1/ChatGPT%20Image%205%20%D0%B0%D0%BF%D1%80.%202025%20%D0%B3.%2C%2001_02_17.png'
+            'https://thumb.cloud.mail.ru/weblink/thumb/xw1/EnV1/gBfsMpWr2'
         ],
     },
     robots: 'index, follow',
@@ -55,6 +57,7 @@ export default function RootLayout({ children }) {
         <body className={`min-h-screen bg-gray-100 dark:bg-gray-900 transition-all duration-500 ${inter.className}`}>
         <I18nProvider>
             {/*<Header />*/}
+            <PwaInstallModal />
             {children}
             <Analytics/>
             <SpeedInsights/>
