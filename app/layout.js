@@ -8,15 +8,15 @@ const inter = Inter({ subsets: ['latin'] });
 
 // Մետա տվյալներ Open Graph-ով
 export const metadata = {
-    title: 'MovieNest | Ֆիլմեր և սերիալներ առցանց հայերենով',
-    description: 'Դիտեք նորագույն ֆիլմեր և սերիալներ անվճար, առանց գրանցման, հայերեն թարգմանությամբ կամ ենթագրերով։ MovieNest.live — Ձեր կինոյի աշխարհը։',
+    title: 'MovieNest | Ֆիլմեր և սերիալներ',
+    description: 'Դիտեք կամ բեռնեք նորագույն ֆիլմեր և սերիալներ անվճար, առանց գրանցման։ MovieNest.live — Ձեր կինոյի աշխարհը։',
+    manifest: '/manifest.json',
     keywords: [
-        'ֆիլմեր', 'սերիալներ', 'դիտել ֆիլմ', 'հայերեն ֆիլմեր', 'ֆիլմեր առցանց',
-        'անվճար ֆիլմեր', 'նոր ֆիլմեր', 'հայերեն սուբտիտրներ', 'սերիալներ հայերենով',
-        'movies', 'watch movies online', 'free movies', 'armenian movies', 'armenian series',
-        'watch series online', 'latest movies', 'armenian subtitles', 'MovieNest',
-        'фильмы', 'смотреть фильмы онлайн', 'бесплатные фильмы', 'армянские фильмы',
-        'армянские сериалы', 'фильмы с субтитрами', 'новые фильмы', 'MovieNest','filmer','film','kino','kinoner','ditel','online'
+        'ֆիլմեր', 'սերիալներ', 'դիտել ֆիլմ', 'ֆիլմեր առցանց',
+        'անվճար ֆիլմեր', 'նոր ֆիլմեր',
+        'movies', 'watch movies online', 'free movies',
+        'watch series online', 'latest movies', 'MovieNest',
+        'фильмы', 'смотреть фильмы онлайн', 'бесплатные фильмы', 'фильмы с субтитрами', 'новые фильмы', 'MovieNest','filmer','film','kino','kinoner','ditel','online'
     ],
     authors: [{ name: 'MovieNest', url: 'https://movienest.live' }],
     openGraph: {
@@ -38,8 +38,8 @@ export const metadata = {
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'MovieNest | Armenian Movies & Series Online | Фильмы и сериалы на армянском',
-        description: 'Watch the latest movies and series online in Armenian. Бесплатно смотрите фильмы и сериалы на армянском языке на сайте MovieNest.live.',
+        title: 'MovieNest | Movies & Series | Фильмы и сериалы',
+        description: 'Watch or download the latest movies and series online. Бесплатно смотрите фильмы и сериалы на сайте MovieNest.live.',
         images: [
             'https://thumb.cloud.mail.ru/thumb/xw1/ChatGPT%20Image%205%20%D0%B0%D0%BF%D1%80.%202025%20%D0%B3.%2C%2001_02_17.png'
         ],
@@ -52,9 +52,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en" className="dark">
-        <head>
-            <link rel="manifest" href="/manifest.json"/>
-        </head>
         <body className={`min-h-screen bg-gray-100 dark:bg-gray-900 transition-all duration-500 ${inter.className}`}>
         <I18nProvider>
             {/*<Header />*/}
