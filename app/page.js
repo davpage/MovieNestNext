@@ -23,6 +23,7 @@ export default function Home() {
     const [movieTitle, setMovieTitle] = useState('Select And Enjoy Movies');
     const [downloadUrl, setDownloadUrl] = useState('');
     const [trailer, setTrailer] = useState('');
+    const [isLoadingMovie, setIsLoadingMovie] = useState(null);
 
     useEffect(() => {
         const fetchTopMovies = async () => {
@@ -145,43 +146,6 @@ export default function Home() {
         }
     };
 
-    const handleMovieClick = async (movie) => {
-        if (movie.dataId) {
-            setIframeSrc(`${ddbbUrl}?id=${movie.dataId}&n=0`);
-            localStorage.setItem('selectedNumber', movie.dataId);
-            localStorage.removeItem('selectedURL');
-            localStorage.removeItem('selectedName');
-            fetchTitleAndHLS(movie.dataId);
-        } else if (movie.url) {
-            try {
-                const response = await fetch(corsUrl + movie.url);
-                const pageHtml = await response.text();
-                const pageDoc = new DOMParser().parseFromString(pageHtml, 'text/html');
-                const liElement = pageDoc.querySelector('li[data-provider="2"]');
-                const trailer = pageDoc.querySelector('.video__trailer');
-
-                if (liElement) {
-                    const iframeSrc = liElement.getAttribute('data-src');
-                    const trail = trailer?.getAttribute('data-src');
-                    setTrailer(trail)
-                    if (iframeSrc) {
-                        setIframeSrc(iframeSrc);
-                        setMovieTitle(movie.title);
-                        localStorage.setItem('selectedURL', iframeSrc);
-                        localStorage.setItem('selectedName', movie.title);
-                        localStorage.removeItem('selectedNumber');
-                        fetchTitleAndHLS(iframeSrc);
-                    }
-                }
-            } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to load movie.',
-                });
-            }
-        }
-    };
 
     const fetchTitleAndHLS = async (extractedNumber) => {
         const apiUrl = `${process.env.NEXT_PUBLIC_KINOBOX_API}?kinopoisk=${extractedNumber}&sources=turbo%2Ccollaps%2Calloha%2Cvibix%2Cvideocdn%2Chdvb%2Ckodik`;
@@ -228,13 +192,64 @@ export default function Home() {
             console.error('Error fetching HLS:', error);
         }
     };
+    const handleMovieClick = async (movie, onLoadComplete) => {
+        if (isLoadingMovie) return; // Կանխել սեղմումը, եթե բեռնումն ընթացքի մեջ է
+        setIsLoadingMovie(movie.dataId || movie.url);
+        try {
+            if (movie.dataId) {
+                setIframeSrc(`${ddbbUrl}?id=${movie.dataId}&n=0`);
+                setMovieTitle(movie.title);
+                localStorage.setItem('selectedNumber', movie.dataId);
+                localStorage.removeItem('selectedURL');
+                localStorage.removeItem('selectedName');
+                fetchTitleAndHLS(movie.dataId);
+                // Սպասել, մինչև iframe-ը բեռնվի (օգտագործել onLoad իրադարձությունը)
+                onLoadComplete();
+            } else if (movie.url) {
+                const response = await fetch(corsUrl + movie.url);
+                const pageHtml = await response.text();
+                const pageDoc = new DOMParser().parseFromString(pageHtml, 'text/html');
+                const liElement = pageDoc.querySelector('li[data-provider="2"]');
+                const trailer = pageDoc.querySelector('.video__trailer');
 
+                if (liElement) {
+                    const iframeSrc = liElement.getAttribute('data-src');
+                    const trail = trailer?.getAttribute('data-src');
+                    setTrailer(trail);
+                    if (iframeSrc) {
+                        setIframeSrc(iframeSrc);
+                        setMovieTitle(movie.title);
+                        localStorage.setItem('selectedURL', iframeSrc);
+                        localStorage.setItem('selectedName', movie.title);
+                        localStorage.removeItem('selectedNumber');
+                        fetchTitleAndHLS(iframeSrc);
+                        // Սպասել, մինչև iframe-ը բեռնվի
+                        onLoadComplete();
+                    }
+                } else {
+                    throw new Error('No valid iframe source found');
+                }
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Failed to load movie.',
+            });
+            setIsLoadingMovie(null); // Դադարեցնել բեռնման վիճակը սխալի դեպքում
+            onLoadComplete(); // Դադարեցնել բեռնման վիճակը, եթե սխալ կա
+        }
+    };
+    const handleIframeLoad = () => {
+        setIsLoadingMovie(null); // Հեռացնել բեռնման վիճակը, երբ iframe-ը բեռնվել է
+    };
     const handleCloseFilm = () => {
         localStorage.clear();
         setTrailer('')
         setIframeSrc('');
         setMovieTitle('');
         setDownloadUrl('');
+        setIsLoadingMovie(null);
     };
 
     return (
@@ -266,6 +281,7 @@ export default function Home() {
                             movieTitle={movieTitle}
                             downloadUrl={downloadUrl}
                             trailer={trailer}
+                            onIframeLoad={handleIframeLoad}
                         />
                     </div>
                     <MovieList
@@ -273,6 +289,7 @@ export default function Home() {
                         title={title}
                         loading={loading}
                         onMovieClick={handleMovieClick}
+                        isLoadingMovie={isLoadingMovie}
                     />
                 </div>
                 <div className='w-full flex flex-col gap-4 max-[850px]:hidden'>
@@ -289,6 +306,7 @@ export default function Home() {
                         movieTitle={movieTitle}
                         downloadUrl={downloadUrl}
                         trailer={trailer}
+                        onIframeLoad={handleIframeLoad}
                     />
                 </div>
             </div>

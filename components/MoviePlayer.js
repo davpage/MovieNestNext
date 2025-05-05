@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import {useState} from "react";
 
-export default function MoviePlayer({ iframeSrc, movieTitle, downloadUrl,trailer }) {
+export default function MoviePlayer({ iframeSrc, movieTitle, downloadUrl,trailer, onIframeLoad }) {
     const [trail,setTrail]=useState(false)
     return (
         <div className="flex flex-col gap-2 max-[850px]:w-full">
@@ -9,6 +9,7 @@ export default function MoviePlayer({ iframeSrc, movieTitle, downloadUrl,trailer
                 <iframe
                     src={trail?trailer:iframeSrc}
                     allowFullScreen
+                    onLoad={onIframeLoad}
                     className="w-full h-[70vh] max-[850px]:h-[200px] border-none"
                 />
             )}
