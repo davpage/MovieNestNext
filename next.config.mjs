@@ -4,7 +4,7 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'kinogo.ec',
+                hostname: 'kinogo.online',
                 pathname: '/**',
             },
             {

@@ -33,27 +33,38 @@ export default function Home() {
                 const html = await res.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-                const carouselItems = doc.querySelector('.carousel__items');
+                const carouselItems = doc.querySelector('#dle-content');
 
                 if (carouselItems) {
-                    const items = Array.from(carouselItems.children).map((item) => {
-                        const titleWithYear = item.title;
+                    console.log(carouselItems)
+                    console.log(Array.from(carouselItems.children).slice(0, -1))
+                    const items = Array.from(carouselItems.children).slice(0, -1).map((item) => {
+                        const rates = item?.children[1]?.querySelector('.mRatings');
+                        const ratings = Array.from(rates?.querySelectorAll('span') || []).map(span => span.textContent.trim());
+
+                        const genreSpan = Array.from(item?.children[1]?.querySelector('.sInfo')?.querySelectorAll('span') || []).find(span => span.querySelector('b')?.textContent?.trim() === 'Жанр:');
+                        const genreNames = Array.from(genreSpan?.querySelectorAll('a') || []).map(a => a.textContent.trim());
+                        const genres = 'Жанр: ' + genreNames.join(', ');
+
+                        const element = item?.children[0]?.children[0]?.querySelector('h2 > a');
+                        const titleWithYear = element?.innerHTML;
                         const img = item.innerHTML;
-                        const url = item.href;
+                        const url = element?.getAttribute('href');
                         const regex = /src="([^"]+)"/;
                         const match = img.match(regex);
                         const imageUrl = match ? match[1] : null;
                         const titleYearRegex = /^(.*)\s\((\d{4})\)$/;
-                        const matchTitleYear = titleWithYear.match(titleYearRegex);
+                        const matchTitleYear = titleWithYear?.match(titleYearRegex);
                         const title = matchTitleYear ? matchTitleYear[1] : titleWithYear;
                         const year = matchTitleYear ? matchTitleYear[2] : null;
 
-                        return {title, year, url, img: imageUrl};
+                        return { title, year, url, img: imageUrl,genres,ratings };
                     });
 
                     setMovies(items);
                 }
             } catch (error) {
+                console.log(error)
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -69,18 +80,13 @@ export default function Home() {
 
     useEffect(() => {
         const loadFilmFromLocalStorage = () => {
-            const savedNumber = localStorage.getItem('selectedNumber');
             const savedUrl = localStorage.getItem('selectedURL');
             const savedName = localStorage.getItem('selectedName');
 
-            if (savedNumber) {
-                setIframeSrc(`${ddbbUrl}?id=${savedNumber}&n=0`);
-                fetchTitleAndHLS(savedNumber);
-            }
             if (savedUrl && savedName) {
                 setIframeSrc(savedUrl);
                 setMovieTitle(savedName);
-                fetchTitleAndHLS(savedUrl);
+                // fetchTitleAndHLS(savedUrl);
             }
         };
 
@@ -95,10 +101,9 @@ export default function Home() {
         if (/^\d+$/.test(searchInput) || searchInput.includes('kinopoisk')) {
             const number = searchInput.match(/\d+/)[0];
             setIframeSrc(`${ddbbUrl}?id=${number}&n=0`);
-            localStorage.setItem('selectedNumber', number);
-            localStorage.removeItem('selectedURL');
-            localStorage.removeItem('selectedName');
-            fetchTitleAndHLS(number);
+            localStorage.setItem('selectedURL',`${ddbbUrl}?id=${number}&n=0`);
+            localStorage.setItem('selectedName','None');
+            // fetchTitleAndHLS(number);
             setTitle('Search Results');
             setLoading(false);
         } else {
@@ -148,7 +153,8 @@ export default function Home() {
 
 
     const fetchTitleAndHLS = async (extractedNumber) => {
-        const apiUrl = `${process.env.NEXT_PUBLIC_KINOBOX_API}?kinopoisk=${extractedNumber}&sources=turbo%2Ccollaps%2Calloha%2Cvibix%2Cvideocdn%2Chdvb%2Ckodik`;
+        // const apiUrl = `${process.env.NEXT_PUBLIC_KINOBOX_API}?kinopoisk=${extractedNumber}&sources=turbo%2Ccollaps%2Calloha%2Cvibix%2Cvideocdn%2Chdvb%2Ckodik`;
+        const apiUrl = `${process.env.NEXT_PUBLIC_ATOMICS_API}${extractedNumber}`;
         try {
             let iframeUrl = '';
             if (typeof extractedNumber === 'number' || /^\d+$/.test(extractedNumber)) {
@@ -193,19 +199,18 @@ export default function Home() {
         }
     };
     const handleMovieClick = async (movie, onLoadComplete) => {
+        console.log(movie)
         if (isLoadingMovie) return; // Կանխել սեղմումը, եթե բեռնումն ընթացքի մեջ է
         setIsLoadingMovie(movie.dataId || movie.url);
         try {
-            if (movie.dataId) {
+            if (movie.dataId && movie.status==="Search Results") {
                 setIframeSrc(`${ddbbUrl}?id=${movie.dataId}&n=0`);
                 setMovieTitle(movie.title);
-                localStorage.setItem('selectedNumber', movie.dataId);
-                localStorage.removeItem('selectedURL');
-                localStorage.removeItem('selectedName');
-                fetchTitleAndHLS(movie.dataId);
-                // Սպասել, մինչև iframe-ը բեռնվի (օգտագործել onLoad իրադարձությունը)
+                localStorage.setItem('selectedURL', `${ddbbUrl}?id=${movie.dataId}&n=0`);
+                localStorage.setItem('selectedName', movie.title);
+                // fetchTitleAndHLS(movie.dataId);
                 onLoadComplete();
-            } else if (movie.url) {
+            } else if (movie.url && movie.status==="Top Movies") {
                 const response = await fetch(corsUrl + movie.url);
                 const pageHtml = await response.text();
                 const pageDoc = new DOMParser().parseFromString(pageHtml, 'text/html');
@@ -221,8 +226,7 @@ export default function Home() {
                         setMovieTitle(movie.title);
                         localStorage.setItem('selectedURL', iframeSrc);
                         localStorage.setItem('selectedName', movie.title);
-                        localStorage.removeItem('selectedNumber');
-                        fetchTitleAndHLS(iframeSrc);
+                        // fetchTitleAndHLS(iframeSrc);
                         // Սպասել, մինչև iframe-ը բեռնվի
                         onLoadComplete();
                     }
@@ -244,7 +248,7 @@ export default function Home() {
         setIsLoadingMovie(null); // Հեռացնել բեռնման վիճակը, երբ iframe-ը բեռնվել է
     };
     const handleCloseFilm = () => {
-        localStorage.clear();
+        // localStorage.clear();
         setTrailer('')
         setIframeSrc('');
         setMovieTitle('');
