@@ -3,8 +3,6 @@
 import {useState, useEffect} from 'react';
 import Swal from 'sweetalert2';
 import emailjs from '@emailjs/browser';
-import UserList from "@/app/UserList";
-import useUserList from "@/app/UserList";
 
 export default function ContactModal() {
     const [name, setName] = useState('');
@@ -13,7 +11,6 @@ export default function ContactModal() {
     const [rating, setRating] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const {count} = useUserList()
     // Ստեղնաշարով նավիգացիա (Esc ստեղնով փակել)
     useEffect(() => {
         const handleKeyDown = (e) => {
@@ -103,7 +100,6 @@ export default function ContactModal() {
                     </button>
                     <div className='flex justify-between w-[95%]'>
                         <h2 className="text-xl sm:text-2xl mb-3 text-white sm:mb-4">Contact Us</h2>
-                        <p className='text-white'>{!!count && `Online Users - ${count}`}</p>
                     </div>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-3 sm:gap-4">
                         <input

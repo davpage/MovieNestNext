@@ -11,8 +11,8 @@ export default function NotFound() {
         <div className="bg-gradient-to-b from-gray-100 to-gray-300 h-[calc(100vh_-_80px)] dark:from-gray-800 dark:to-gray-900 flex flex-col">
             <main className="flex-grow flex items-center justify-center px-6 py-8">
                 <div className="text-center animate-fade-in">
-                    <div className="mb-8">
-                        <Logo w={"100"} h={"110"} className="mx-auto text-indigo-600 dark:text-indigo-400 animate-bounce" />
+                    <div className="mb-8 flex justify-center items-center">
+                        <Logo w={"300"} h={"210"} className="mx-auto text-indigo-600 dark:text-indigo-400 animate-bounce" />
                     </div>
                     <h1 className="text-8xl font-extrabold text-indigo-600 dark:text-indigo-400 mb-4 tracking-wider">
                         404
@@ -34,7 +34,7 @@ export default function NotFound() {
                 </div>
             </main>
             <footer className="py-4 text-center text-gray-500 dark:text-gray-400 text-sm">
-                © {new Date().getFullYear()} {t('website_name', { defaultValue: 'Իմ Կայք' })}
+                © {new Date().getFullYear()} {t('website_name', { defaultValue: 'MovieNest' })}
             </footer>
         </div>
     );

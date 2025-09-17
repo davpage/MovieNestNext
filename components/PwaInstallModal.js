@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import usePwaPrompt from './usePwaPrompt';
-import {MdDownload} from "react-icons/md"; // install with: npm i lucide-react
+import {MdDownload} from "react-icons/md";
 
 export default function PwaInstallModal() {
     const [showModal, setShowModal] = useState(false);

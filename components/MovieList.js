@@ -32,38 +32,56 @@ export default function MovieList({movies, title, loading, onMovieClick, isLoadi
                         }`}
                         onClick={() => handleClick(movie)}
                     >
-                        {console.log(movie)}
-                        <Image
-                            src={
-                                movie?.img
-                                    ? `${kinogoUrl}${movie?.img}`
-                                    : movie.dataId
-                                        ? `https://www.kinopoisk.ru/images/sm_film/${movie.dataId}.jpg`
-                                        : '/placeholder.jpg'
-                            }
-                            alt={movie?.title}
-                            width={64}
-                            height={96}
-                            className="w-16 h-24 object-cover rounded"
-                        />
-                        <div className='w-full'>
-                            <div className="font-bold text-sm sm:text-base">{movie?.title}</div>
-                            <div className="text-xs sm:text-sm">{movie?.year}</div>
-                            <div className="text-xs sm:text-sm">{movie?.duration}</div>
-                            <div className="text-xs sm:text-sm">{movie?.genres}</div>
+                        <div className={'flex justify-start items-center gap-4'}>
+                            <Image
+                                src={
+                                    movie?.img
+                                        ? `${kinogoUrl}${movie?.img}`
+                                        : movie.dataId
+                                            ? `https://www.kinopoisk.ru/images/sm_film/${movie.dataId}.jpg`
+                                            : '/placeholder.jpg'
+                                }
+                                alt={movie?.title}
+                                width={64}
+                                height={96}
+                                className="w-16 h-24 object-cover rounded"
+                            />
+                            <div className='max-w-[400px]'>
+                                <div className="font-bold text-sm sm:text-base">{movie?.title}</div>
+                                <div className="text-xs sm:text-sm">{movie?.year}</div>
+                                <div className="text-xs sm:text-sm">{movie?.duration}</div>
+                                <div className="flex flex-wrap gap-1">{
+                                    movie?.genres?.length>0 && movie?.genres.map((e,i)=> (
+                                        <p key={i} className={'px-1 bg-red-900 rounded-2xl text-white text-[10px]'}>{e} </p>
+                                    ))}</div>
+
+                            </div>
                         </div>
+                        {console.log(movie?.ratings)}
                         {movie?.ratings?.length > 0 && (
                             <div className="w-auto flex flex-col gap-2">
-                                <div
-                                    className="bg-[#FF5722] text-white rounded-md shadow-sm px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis"
-                                >
-                                    {movie?.ratings[0]}
-                                </div>
-                                <div
-                                    className="bg-[#fc0] text-black rounded-md shadow-sm px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis"
-                                >
-                                    {movie?.ratings[1]}
-                                </div>
+                                {movie?.ratings[0] && (
+                                    <div
+                                        className={`${
+                                            movie.ratings[0].startsWith("IMDb")
+                                                ? "bg-[#ffcc00] text-black"
+                                                : "bg-[#FF5722] text-white"
+                                        } rounded-md shadow-sm px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis`}
+                                    >
+                                        {movie.ratings[0]}
+                                    </div>
+                                )}
+                                {movie?.ratings[1] && (
+                                    <div
+                                        className={`${
+                                            movie.ratings[1].startsWith("IMDb")
+                                                ? "bg-[#ffcc00] text-black"
+                                                : "bg-[#FF5722] text-white"
+                                        } rounded-md shadow-sm px-2 py-1 text-xs sm:px-3 sm:py-1 sm:text-sm whitespace-nowrap overflow-hidden text-ellipsis`}
+                                    >
+                                        {movie.ratings[1]}
+                                    </div>
+                                )}
                             </div>
                         )}
 

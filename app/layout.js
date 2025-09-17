@@ -4,11 +4,9 @@ import I18nProvider from '../lib/I18nProvider';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from '@vercel/analytics/react';
 import PwaInstallModal from "@/components/PwaInstallModal";
-import UserList from "@/app/UserList";
 
 const inter = Inter({ subsets: ['latin'] });
 
-// Մետա տվյալներ Open Graph-ով
 export const metadata = {
     title: 'MovieNest | Ֆիլմեր և սերիալներ',
     description: 'Դիտեք կամ բեռնեք նորագույն ֆիլմեր և սերիալներ անվճար, առանց գրանցման։ MovieNest.live — Ձեր կինոյի աշխարհը։',
@@ -47,16 +45,18 @@ export const metadata = {
         ],
     },
     robots: 'index, follow',
-    viewport: 'width=device-width, initial-scale=1',
     charset: 'utf-8',
 };
 
+export const viewport = {
+    width: 'device-width',
+    initialScale: 1,
+};
 export default function RootLayout({ children }) {
     return (
         <html lang="en" className="dark">
         <body className={`min-h-screen bg-gray-100 dark:bg-gray-900 transition-all duration-500 ${inter.className}`}>
         <I18nProvider>
-            {/*<Header />*/}
             <PwaInstallModal />
             {children}
             <Analytics/>

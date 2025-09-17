@@ -10,7 +10,7 @@ import Image from 'next/image';
 import bgPhoto from '@/public/bgPhoto.jpeg'
 
 const corsUrl = process.env.NEXT_PUBLIC_CORS_URL;
-const kinogoUrl = process.env.NEXT_PUBLIC_KINOGO_URL;
+const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 const kinopoiskSearchUrl = process.env.NEXT_PUBLIC_KINOPOISK_SEARCH_URL;
 const ddbbUrl = process.env.NEXT_PUBLIC_DDBB_URL;
 
@@ -29,46 +29,16 @@ export default function Home() {
         const fetchTopMovies = async () => {
             setLoading(true);
             try {
-                const res = await fetch(corsUrl + kinogoUrl);
-                const html = await res.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const carouselItems = doc.querySelector('#dle-content');
+                const res = await fetch(`${backendUrl}/movies`);
+                const data = await res.json(); // ✅ JSON, ոչ թե HTML
 
-                if (carouselItems) {
-                    console.log(carouselItems)
-                    console.log(Array.from(carouselItems.children).slice(0, -1))
-                    const items = Array.from(carouselItems.children).slice(0, -1).map((item) => {
-                        const rates = item?.children[1]?.querySelector('.mRatings');
-                        const ratings = Array.from(rates?.querySelectorAll('span') || []).map(span => span.textContent.trim());
-
-                        const genreSpan = Array.from(item?.children[1]?.querySelector('.sInfo')?.querySelectorAll('span') || []).find(span => span.querySelector('b')?.textContent?.trim() === 'Жанр:');
-                        const genreNames = Array.from(genreSpan?.querySelectorAll('a') || []).map(a => a.textContent.trim());
-                        const genres = 'Жанр: ' + genreNames.join(', ');
-
-                        const element = item?.children[0]?.children[0]?.querySelector('h2 > a');
-                        const titleWithYear = element?.innerHTML;
-                        const img = item.innerHTML;
-                        const url = element?.getAttribute('href');
-                        const regex = /src="([^"]+)"/;
-                        const match = img.match(regex);
-                        const imageUrl = match ? match[1] : null;
-                        const titleYearRegex = /^(.*)\s\((\d{4})\)$/;
-                        const matchTitleYear = titleWithYear?.match(titleYearRegex);
-                        const title = matchTitleYear ? matchTitleYear[1] : titleWithYear;
-                        const year = matchTitleYear ? matchTitleYear[2] : null;
-
-                        return { title, year, url, img: imageUrl,genres,ratings };
-                    });
-
-                    setMovies(items);
-                }
+                setMovies(data);
             } catch (error) {
-                console.log(error)
+                console.log(error);
                 Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'An error occurred while fetching the best movies.',
+                    icon: "error",
+                    title: "Oops...",
+                    text: "An error occurred while fetching the best movies."
                 });
             } finally {
                 setLoading(false);
@@ -77,6 +47,7 @@ export default function Home() {
 
         fetchTopMovies();
     }, []);
+
 
     useEffect(() => {
         const loadFilmFromLocalStorage = () => {
@@ -210,28 +181,23 @@ export default function Home() {
                 localStorage.setItem('selectedName', movie.title);
                 // fetchTitleAndHLS(movie.dataId);
                 onLoadComplete();
-            } else if (movie.url && movie.status==="Top Movies") {
-                const response = await fetch(corsUrl + movie.url);
-                const pageHtml = await response.text();
-                const pageDoc = new DOMParser().parseFromString(pageHtml, 'text/html');
-                const liElement = pageDoc.querySelector('li[data-provider="2"]');
-                const trailer = pageDoc.querySelector('.video__trailer');
+            } else if (movie.url && movie.status === "Top Movies") {
+                const response = await fetch(`${backendUrl}/movie-page?url=${encodeURIComponent(movie.url)}`);
+                const data = await response.json();
 
-                if (liElement) {
-                    const iframeSrc = liElement.getAttribute('data-src');
-                    const trail = trailer?.getAttribute('data-src');
-                    setTrailer(trail);
-                    if (iframeSrc) {
-                        setIframeSrc(iframeSrc);
-                        setMovieTitle(movie.title);
-                        localStorage.setItem('selectedURL', iframeSrc);
-                        localStorage.setItem('selectedName', movie.title);
-                        // fetchTitleAndHLS(iframeSrc);
-                        // Սպասել, մինչև iframe-ը բեռնվի
-                        onLoadComplete();
+                if (data.iframeSrc) {
+                    setIframeSrc(data.iframeSrc);
+                    setMovieTitle(movie.title);
+                    localStorage.setItem('selectedURL', data.iframeSrc);
+                    localStorage.setItem('selectedName', movie.title);
+
+                    if (data.trailer) {
+                        setTrailer(data.trailer);
                     }
+
+                    onLoadComplete();
                 } else {
-                    throw new Error('No valid iframe source found');
+                    throw new Error("No valid iframe source found");
                 }
             }
         } catch (error) {
