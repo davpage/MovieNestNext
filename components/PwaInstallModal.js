@@ -21,8 +21,8 @@ export default function PwaInstallModal() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm animate-fade-in">
             <div className="bg-zinc-900 rounded-2xl p-6 shadow-2xl w-[90%] max-w-sm animate-slide-up border border-zinc-700">
                 <div className="flex flex-col items-center text-center space-y-4 text-white">
-                    <div className="bg-red-900/20 p-4 rounded-full border border-red-700">
-                        <MdDownload className="text-red-500 w-8 h-8" />
+                    <div className="bg-blue-900/20 p-4 rounded-full border border-blue-700">
+                        <MdDownload className="text-blue-500 w-8 h-8" />
                     </div>
                     <h2 className="text-2xl font-semibold text-white">Տեղադրիր MovieNest-ը</h2>
                     <p className="text-zinc-400">
@@ -34,7 +34,7 @@ export default function PwaInstallModal() {
                                 promptInstall();
                                 setShowModal(false);
                             }}
-                            className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 rounded-xl transition"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-xl transition"
                         >
                             Տեղադրել հիմա
                         </button>

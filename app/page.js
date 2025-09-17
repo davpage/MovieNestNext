@@ -7,7 +7,9 @@ import MovieList from '../components/MovieList';
 import MoviePlayer from '../components/MoviePlayer';
 import ContactModal from '../components/ContactModal';
 import Image from 'next/image';
-import bgPhoto from '@/public/bgPhoto.jpeg'
+// import backgroundPhoto from '@/public/bgPhoto.jpeg'
+// import backgroundPhoto from '@/public/background.jpg'
+import backgroundPhoto from '@/public/back.png'
 
 const corsUrl = process.env.NEXT_PUBLIC_CORS_URL;
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -34,7 +36,7 @@ export default function Home() {
 
                 setMovies(data);
             } catch (error) {
-                console.log(error);
+                // console.log(error);
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
@@ -170,7 +172,7 @@ export default function Home() {
         }
     };
     const handleMovieClick = async (movie, onLoadComplete) => {
-        console.log(movie)
+        // console.log(movie)
         if (isLoadingMovie) return; // Կանխել սեղմումը, եթե բեռնումն ընթացքի մեջ է
         setIsLoadingMovie(movie.dataId || movie.url);
         try {
@@ -226,7 +228,7 @@ export default function Home() {
         <>
             {/* Ֆոնային նկար */}
             <Image
-                src={bgPhoto}
+                src={backgroundPhoto}
                 alt="Movie Background"
                 width={2000}
                 height={1500}

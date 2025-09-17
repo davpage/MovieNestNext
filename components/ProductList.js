@@ -48,7 +48,7 @@ export default function ProductList() {
     }, []);
 
     if (loading) return <div className="text-center text-lg text-gray-600">Loading...</div>;
-    if (error) return <div className="text-center text-lg text-red-700 bg-red-100 p-4 rounded-lg">Error: {error}</div>;
+    if (error) return <div className="text-center text-lg text-blue-700 bg-blue-100 p-4 rounded-lg">Error: {error}</div>;
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-lg dark:bg-gray-900 dark:text-white">

@@ -12,7 +12,7 @@ export default function MovieList({movies, title, loading, onMovieClick, isLoadi
 
     return (
         <div
-            className="max-[850px]:w-full h-full min-[850px]:min-w-[350px] overflow-y-auto bg-black/50 backdrop-blur-lg border border-red-900 p-4 shadow-lg">
+            className="max-[850px]:w-full h-full min-[850px]:min-w-[350px] overflow-y-auto bg-black/50 backdrop-blur-lg border border-blue-900 p-4 shadow-lg">
             <h2 className="text-lg sm:text-xl text-white mb-4">{title}</h2>
             {loading && (
                 <div
@@ -52,12 +52,12 @@ export default function MovieList({movies, title, loading, onMovieClick, isLoadi
                                 <div className="text-xs sm:text-sm">{movie?.duration}</div>
                                 <div className="flex flex-wrap gap-1">{
                                     movie?.genres?.length>0 && movie?.genres.map((e,i)=> (
-                                        <p key={i} className={'px-1 bg-red-900 rounded-2xl text-white text-[10px]'}>{e} </p>
+                                        <p key={i} className={'px-1 bg-blue-900 rounded-2xl text-white text-[10px]'}>{e} </p>
                                     ))}</div>
 
                             </div>
                         </div>
-                        {console.log(movie?.ratings)}
+                        {/*{console.log(movie?.ratings)}*/}
                         {movie?.ratings?.length > 0 && (
                             <div className="w-auto flex flex-col gap-2">
                                 {movie?.ratings[0] && (

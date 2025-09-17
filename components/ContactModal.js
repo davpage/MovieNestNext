@@ -81,7 +81,7 @@ export default function ContactModal() {
         <>
             <button
                 onClick={() => setIsModalOpen(true)}
-                className="fixed bottom-4 right-4 px-3 py-2 bg-red-900/70 text-white rounded-lg hover:bg-red-900 text-sm sm:text-base shadow-lg transition-all duration-300"
+                className="fixed bottom-4 right-4 px-3 py-2 bg-blue-900/70 text-white rounded-lg hover:bg-blue-900 text-sm sm:text-base shadow-lg transition-all duration-300"
             >
                 Contact Us
             </button>
@@ -107,7 +107,7 @@ export default function ContactModal() {
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                             placeholder="Your Name"
-                            className="p-2 text-sm sm:text-base bg-black/50 backdrop-blur-lg border-b border-gray-300 outline-none text-white focus:border-red-900"
+                            className="p-2 text-sm sm:text-base bg-black/50 backdrop-blur-lg border-b border-gray-300 outline-none text-white focus:border-blue-900"
                             required
                         />
                         <input
@@ -115,14 +115,14 @@ export default function ContactModal() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Your Email"
-                            className="p-2 text-sm sm:text-base bg-black/50 backdrop-blur-lg border-b border-gray-300 outline-none text-white focus:border-red-900"
+                            className="p-2 text-sm sm:text-base bg-black/50 backdrop-blur-lg border-b border-gray-300 outline-none text-white focus:border-blue-900"
                             required
                         />
                         <textarea
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="Your Message"
-                            className="p-2 text-sm sm:text-base bg-black/50 backdrop-blur-lg border-b border-gray-300 outline-none text-white focus:border-red-900 resize-none h-20 sm:h-24"
+                            className="p-2 text-sm sm:text-base bg-black/50 backdrop-blur-lg border-b border-gray-300 outline-none text-white focus:border-blue-900 resize-none h-20 sm:h-24"
                             required
                         />
                         <div className="text-center">
@@ -147,7 +147,7 @@ export default function ContactModal() {
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="px-3 py-2 bg-red-900 text-white rounded-lg hover:bg-red-950 flex items-center justify-center text-sm sm:text-base"
+                            className="px-3 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-950 flex items-center justify-center text-sm sm:text-base"
                         >
                             {isSubmitting ? (
                                 <>

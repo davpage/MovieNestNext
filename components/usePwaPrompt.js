@@ -23,7 +23,7 @@ export default function usePwaPrompt() {
         deferredPrompt.prompt();
         const { outcome } = await deferredPrompt.userChoice;
         if (outcome === 'accepted') {
-            console.log('User accepted the PWA install');
+            // console.log('User accepted the PWA install');
         }
         localStorage.setItem('showPwaPrompt', 'false');
     };

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import {useState} from "react";
 
 export default function MoviePlayer({ iframeSrc, movieTitle, downloadUrl,trailer, onIframeLoad }) {
-    console.log(iframeSrc)
+    // console.log(iframeSrc)
     const [trail,setTrail]=useState(false)
     return (
         <div className="flex flex-col gap-2 max-[850px]:w-full">
@@ -19,14 +19,14 @@ export default function MoviePlayer({ iframeSrc, movieTitle, downloadUrl,trailer
                 <div className='flex gap-4'>
                     {trailer && <button
                         onClick={()=>setTrail(!trail)}
-                        className="px-4 py-2 bg-red-900 text-white rounded hover:bg-red-950 cursor-pointer text-sm sm:text-base"
+                        className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-950 cursor-pointer text-sm sm:text-base"
                     >
                         {trail?'Movie':'Trailer'}
                     </button>}
                     {downloadUrl && (
                         <Link
                             href={downloadUrl}
-                            className="px-4 py-2 bg-red-900 text-white rounded hover:bg-red-950 text-sm sm:text-base"
+                            className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-950 text-sm sm:text-base"
                         >
                             Download
                         </Link>

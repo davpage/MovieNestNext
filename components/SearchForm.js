@@ -17,12 +17,12 @@ export default function SearchForm({
                 value={searchInput}
                 onChange={(e) => setSearchInput(e.target.value)}
                 placeholder="Enter film name or Kinopoisk URL/number"
-                className="flex-1 w-full p-2 text-lg sm:text-2xl bg-black/50 backdrop-blur-lg border-b border-gray-300 outline-none text-white focus:border-red-900"
+                className="flex-1 w-full p-2 text-lg sm:text-2xl bg-black/50 backdrop-blur-lg border-b border-gray-300 outline-none text-white focus:border-blue-900"
                 required
             />
             <button
                 type="submit"
-                className="px-4 py-2 bg-red-900 text-white rounded hover:bg-red-950 text-sm sm:text-base"
+                className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-950 text-sm sm:text-base"
                 disabled={loading}
             >
                 Search
@@ -30,7 +30,7 @@ export default function SearchForm({
             {iframeSrc && (
                 <button
                     onClick={handleCloseFilm}
-                    className="px-4 py-2 bg-red-900 text-white rounded hover:bg-red-950 text-sm sm:text-base"
+                    className="px-4 py-2 bg-blue-900 text-white rounded hover:bg-blue-950 text-sm sm:text-base"
                 >
                     Close
                 </button>
