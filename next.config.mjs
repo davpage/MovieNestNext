@@ -1,13 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    async rewrites() {
-        return [
-            {
-                source: '/api/:path*',
-                destination: 'http://api.movienest.live:99/:path*', // backend proxy
-            },
-        ]
-    },
     images: {
         remotePatterns: [
             {
