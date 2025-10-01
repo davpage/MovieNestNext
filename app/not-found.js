@@ -2,7 +2,7 @@
 
 import { useTranslation } from 'react-i18next';
 import Link from 'next/link';
-import Logo from '@/components/Logo';
+import Logo from '../components/Logo';
 
 export default function NotFound() {
     const { t } = useTranslation();

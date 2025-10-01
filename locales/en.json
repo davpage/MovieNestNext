@@ -1,94 +1,55 @@
 {
-  "home": "Home",
-  "myData": "My Data",
-  "user": "User",
-  "personalData": "Personal Data",
-  "logout": "Logout",
-  "welcome": "Welcome",
-  "thisIsYourHome": "This is your home page",
-
-  "login": "Login",
-  "verify": "Verify",
-  "resetPassword": "Reset Password",
-  "email": "Email",
-  "password": "Password",
-  "verificationCode": "Verification Code",
-  "loginButton": "Log In",
-  "forgotPassword": "Forgot Password?",
-  "sendResetCode": "Send Reset Code",
-  "backToLogin": "Back to Login",
-  "verifyButton": "Verify",
-  "submitResetCode": "Submit Code",
-  "notRegisteredYet": "Not registered yet?",
-  "register": "Register",
-  "loginFailed": "Login failed",
-  "verificationFailed": "Verification failed",
-  "somethingWentWrong": "Something went wrong",
-  "emailRequired": "Email is required",
-  "forgotPasswordFailed": "Forgot password failed",
-  "resetCode": "Reset Code",
-  "newPassword": "New Password",
-  "resetPasswordButton": "Reset Password",
-  "passwordResetSuccess": "Password reset successfully",
-
-  "name": "Name",
-  "newPasswordOptional": "New Password (leave blank if unchanged)",
-  "update": "Update",
-  "cancel": "Cancel",
-  "edit": "Edit",
-  "deleteAccount": "Delete Account",
-  "confirmDelete": "Are you sure you want to delete your account?",
-  "fetchUserFailed": "Failed to fetch user data",
-  "updateFailed": "Failed to update user",
-  "deleteFailed": "Failed to delete account",
-
-  "registerButton": "Register",
-  "alreadyRegistered": "Already registered?",
-  "registerFailed": "Registration failed",
-
-  "loading": "Loading...",
-
-  "category": "Categories",
-  "product": "Products",
-  "menu": "Menu",
-  "welcome_message": "Welcome to our website. This is your home page where you can find the most important information.",
-  "explore_categories": "Explore Categories",
-  "explore_categories_desc": "Check out our list of categories and choose what interests you.",
-  "view_products": "View Products",
-  "view_products_desc": "Discover our product selection and find your favorite.",
-  "category_intro": "Select a category to view our offered products.",
-  "product_intro": "Browse our product list and pick your preferred items.",
-  "electronics": "Electronics",
-  "clothing": "Clothing",
-  "books": "Books",
-  "phone": "Phone",
-  "shirt": "Shirt",
-  "book": "Book",
-  "price": "Price",
-  "page_not_found": "Page Not Found",
-  "not_found_message": "Sorry, but the page you are looking for does not exist or has been moved.",
-  "back_to_home": "Back to Home",
-  "website_name": "MovieNest",
-
-  "online": "Online Users",
-  "sessionID": "Session ID",
-  "ip": "IP Address",
-  "country": "Country",
-  "city": "City",
-  "deviceType": "Device Type",
-  "language": "Language",
-  "timezone": "Timezone",
-  "referrer": "Referrer",
-  "userAgent": "User Agent",
-  "isp": "ISP",
-  "proxy": "Proxy",
-  "bot": "Bot",
-  "tabs": "Tabs Open",
-  "visitDateTime": "Visit Time",
-  "visitDuration": "Visit Duration",
-  "connectTime": "Connect Time",
-  "gpsLocation": "GPS Location",
-  "gpsCity": "GPS City",
-  "screenResolution": "Screen Resolution",
-  "theme": "Theme"
+  "nav": {
+    "about": "About",
+    "contact": "Contact Us"
+  },
+  "about": {
+    "title": "About MovieNest",
+    "lead": "MovieNest is built to help you find and watch new movies/series quickly, with no registration or extra steps. The interface is lightweight with subtle animations, and SEO is optimized for fast indexing and discoverability.",
+    "cta_start": "Start watching",
+    "cta_more": "Learn more",
+    "values_title": "Our values",
+    "faq_title": "Frequently Asked Questions",
+    "features": [
+      { "title": "Fast search", "desc": "Caching, prefetching and smart search hints." },
+      { "title": "No registration", "desc": "Open and watch — no extra steps." },
+      { "title": "Dark/Light UI", "desc": "Modern, comfortable, easy on the eyes." },
+      { "title": "PWA installing", "desc": "Installable app for quick access." }
+    ],
+    "values": [
+      { "title": "Speed", "desc": "Optimized for Core Web Vitals with improved LCP/FID." },
+      { "title": "Accessibility", "desc": "A11y semantics, focus states and screen reader support." },
+      { "title": "Simplicity", "desc": "Clear navigation with minimal clicks to watch." }
+    ],
+    "faqs": [
+      { "q": "Is MovieNest paid?", "a": "No, it’s intended for quick watching without registration." },
+      { "q": "Do you have an app?", "a": "Yes, you can install it as a PWA using the install prompt." },
+      { "q": "Which languages are available?", "a": "Armenian, English, Russian — switch from the top bar." }
+    ]
+  },
+  "search": {
+    "placeholder": "Enter film name or Kinopoisk URL/number",
+    "pressEnter": "Press Enter to search",
+    "loading": "Searching…",
+    "submit": "Search",
+    "close": "Close"
+  },
+  "home": {
+    "topMovies": "Top Movies",
+    "pickAndEnjoy": "Select and enjoy movies",
+    "loading": "Loading...",
+    "searchResults": "Search Results",
+    "reload": "Oops, please reload page!",
+    "unknown": "Unknown",
+    "unknownYear": "Unknown Year",
+    "none": "None"
+  },
+  "alerts": {
+    "oops": "Oops…",
+    "fetchFailed": "Failed to fetch movies.",
+    "loadFailed": "Failed to load movie."
+  },
+  "footer": {
+    "line": "latest movies and series in Armenian, English and Russian for online watching. No registration, fast and convenient search."
+  }
 }
