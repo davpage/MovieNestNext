@@ -14,7 +14,7 @@ export default function ThemeToggle() {
         <button
             onClick={() => setTheme(isDark ? 'light' : 'dark')}
             aria-label="Toggle theme"
-            className={`relative inline-flex items-center px-1 py-1 rounded-full
+            className={`relative inline-flex items-center Z rounded-full
                   bg-zinc-200/60 dark:bg-zinc-700/60
                   border border-zinc-300/60 dark:border-zinc-600/60
                   hover:shadow-soft transition-all`}
@@ -26,8 +26,7 @@ export default function ThemeToggle() {
             <span className="absolute inset-[2px] rounded-full bg-white/50 dark:bg-black/40 backdrop-blur-sm" />
 
             {/* labels */}
-            <span className={`ml-3 text-xs font-medium ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>Light</span>
-            <span className={`ml-auto mr-3 text-xs font-medium ${isDark ? 'text-white' : 'text-zinc-400'}`}>Dark</span>
+           <span className={`absolute ${isDark ? "left-0 text-zinc-300":"right-0 text-zinc-700"} px-2 text-xs font-medium `}>{!isDark ? "Light":"Dark"}</span>
 
             {/* thumb */}
             <span

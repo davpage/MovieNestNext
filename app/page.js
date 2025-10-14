@@ -1,12 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Swal from 'sweetalert2'
 import { useTranslation } from 'react-i18next'
 
 import SearchForm from '../components/SearchForm'
 import MovieList from '../components/MovieList'
 import MoviePlayer from '../components/MoviePlayer'
+import { Toast } from '../components/Toast' // ⬅️ Ավելացրու սա
 
 const corsUrl = process.env.NEXT_PUBLIC_CORS_URL
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
@@ -20,16 +20,21 @@ export default function Home() {
     const [movies, setMovies] = useState([])
     const [iframeSrc, setIframeSrc] = useState('')
     const [loading, setLoading] = useState(false)
-    const [title, setTitle] = useState(t('home.topMovies'))                // i18n
-    const [movieTitle, setMovieTitle] = useState(t('home.pickAndEnjoy'))   // i18n
+    const [title, setTitle] = useState(t('home.topMovies'))
+    const [movieTitle, setMovieTitle] = useState(t('home.pickAndEnjoy'))
     const [downloadUrl, setDownloadUrl] = useState('')
     const [trailer, setTrailer] = useState('')
     const [isLoadingMovie, setIsLoadingMovie] = useState(null)
+
+    // 🔔 local toast
+    const [toast, setToast] = useState({ open: false, type: 'success', message: '' })
+    const notify = (type, message) => setToast({ open: true, type, message })
 
     // keep titles in sync when language changes
     useEffect(() => {
         if (!iframeSrc) setMovieTitle(t('home.pickAndEnjoy'))
         if (movies.length === 0) setTitle(t('home.topMovies'))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [t, iframeSrc, movies.length])
 
     useEffect(() => {
@@ -40,13 +45,14 @@ export default function Home() {
                 const data = await res.json()
                 setMovies(Array.isArray(data) ? data : [])
             } catch (error) {
-                Swal.fire({ icon: 'error', title: t('alerts.oops'), text: t('alerts.fetchFailed') })
+                notify('error', `${t('alerts.oops')}: ${t('alerts.fetchFailed')}`)
             } finally {
                 setLoading(false)
             }
         }
         fetchTopMovies()
-    }, [t]) // optional: will refetch on lang change; remove if not desired
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [t]) // optional: refetch on lang change
 
     useEffect(() => {
         const savedUrl = localStorage.getItem('selectedURL')
@@ -88,12 +94,14 @@ export default function Home() {
                     year: yearEl?.textContent || t('home.unknownYear'),
                     duration: durationEl?.textContent || '',
                     dataId,
+                    status: t('home.searchResults'),
                 }
             })
             setMovies(results)
             setTitle(t('home.searchResults'))
         } catch {
             setTitle(t('home.reload'))
+            notify('error', `${t('alerts.oops')}: ${t('alerts.fetchFailed')}`)
         } finally {
             setLoading(false)
         }
@@ -109,7 +117,7 @@ export default function Home() {
                 setMovieTitle(movie.title)
                 localStorage.setItem('selectedURL', url)
                 localStorage.setItem('selectedName', movie.title)
-                onLoadComplete()
+                onLoadComplete?.()
             } else if (movie.url && movie.status === t('home.topMovies')) {
                 const response = await fetch(`${backendUrl}/movie-page?url=${encodeURIComponent(movie.url)}`)
                 const data = await response.json()
@@ -119,13 +127,15 @@ export default function Home() {
                     localStorage.setItem('selectedURL', data.iframeSrc)
                     localStorage.setItem('selectedName', movie.title)
                     if (data.trailer) setTrailer(data.trailer)
-                    onLoadComplete()
-                } else throw new Error('No valid iframe source')
+                    onLoadComplete?.()
+                } else {
+                    throw new Error('No valid iframe source')
+                }
             }
         } catch {
-            Swal.fire({ icon: 'error', title: t('alerts.oops'), text: t('alerts.loadFailed') })
+            notify('error', `${t('alerts.oops')}: ${t('alerts.loadFailed')}`)
             setIsLoadingMovie(null)
-            onLoadComplete()
+            onLoadComplete?.()
         }
     }
 
@@ -143,6 +153,15 @@ export default function Home() {
 
     return (
         <>
+            {/* Toast container */}
+            <Toast
+                open={toast.open}
+                type={toast.type}
+                message={toast.message}
+                onClose={() => setToast((p) => ({ ...p, open: false }))}
+                ms={2400}
+            />
+
             <main className="mx-auto max-w-6xl px-4 py-4 grid grid-cols-1 md:grid-cols-[380px_1fr] gap-4">
                 {/* left column */}
                 <section className="md:order-1 order-2">
@@ -174,15 +193,6 @@ export default function Home() {
                     />
                 </section>
             </main>
-
-            {/*<footer className="border-t border-black/5 dark:border-white/10 py-8 text-sm text-zinc-600 dark:text-zinc-400">*/}
-            {/*    <div className="mx-auto max-w-6xl px-4 space-y-2">*/}
-            {/*        <p>*/}
-            {/*            <strong>MovieNest</strong> — {t('footer.line')}*/}
-            {/*        </p>*/}
-            {/*    </div>*/}
-            {/*</footer>*/}
-
         </>
     )
 }

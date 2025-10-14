@@ -7,6 +7,7 @@ import LocaleSwitcher from './LocaleSwitcher'
 import { useTranslation } from 'react-i18next'
 import {CiCircleInfo} from "react-icons/ci";
 import ContactModal from "../components/ContactModal";
+import {MdOutlineMessage} from "react-icons/md";
 
 export default function Header() {
     const { t } = useTranslation()
@@ -20,7 +21,7 @@ export default function Header() {
                 <nav className="ml-auto flex items-center gap-2">
                     <LocaleSwitcher />
                     <ThemeToggle />
-                    <PillLink href="/about" size="md" icon={<CiCircleInfo />}>
+                    <PillLink href="/about" size="md" className="!min-w-[44px]" icon={<CiCircleInfo />}>
                         {/* 👇 տեքստը միայն ≥sm էկրաններին */}
 
                         <span className="hidden sm:inline !min-w-[44px]">{t('nav.about')}</span>

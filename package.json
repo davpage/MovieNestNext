@@ -19,12 +19,10 @@
     "i18next-browser-languagedetector": "^8.0.4",
     "next": "^15.2.4",
     "next-themes": "^0.4.6",
-    "nodemailer": "^6.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-i18next": "^15.4.1",
-    "react-icons": "^5.5.0",
-    "sweetalert2": "^11.23.0"
+    "react-icons": "^5.5.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

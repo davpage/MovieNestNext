@@ -51,5 +51,22 @@
   },
   "footer": {
     "line": "latest movies and series in Armenian, English and Russian for online watching. No registration, fast and convenient search."
+  },
+  "contact": {
+    "title": "Contact Us",
+    "name": "Name",
+    "email": "Email",
+    "message": "Your Message",
+    "rate": "Rate your experience",
+    "yourRating": "Your rating",
+    "fillAll": "Please fill in all fields.",
+    "invalidEmail": "Please enter a valid email address.",
+    "sent": "Message sent successfully!",
+    "failed": "Failed to send message. Please try again later.",
+    "sending": "Sending...",
+    "send": "Send"
+  },
+  "common": {
+    "close": "Close"
   }
 }

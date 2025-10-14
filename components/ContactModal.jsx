@@ -2,14 +2,14 @@
 
 import React, { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import Swal from 'sweetalert2'
 import emailjs from '@emailjs/browser'
 import PillLink from '../components/PillLink'
 import { MdOutlineMessage } from 'react-icons/md'
-import {useTranslation} from "react-i18next";
+import { useTranslation } from 'react-i18next'
+import { Toast } from '../components/Toast' // ⬅️ Ավելացրու սա
 
 export default function ContactModal() {
-    const {t}=useTranslation()
+    const { t } = useTranslation()
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [message, setMessage] = useState('')
@@ -20,12 +20,18 @@ export default function ContactModal() {
     const dialogRef = useRef(null)
     const firstFieldRef = useRef(null)
 
+    // 🔔 local toast
+    const [toast, setToast] = useState({ open: false, type: 'success', message: '' })
+    const notify = (type, message) => setToast({ open: true, type, message })
+
     // Lock body scroll while open
     useEffect(() => {
         if (!isModalOpen) return
         const prev = document.body.style.overflow
         document.body.style.overflow = 'hidden'
-        return () => { document.body.style.overflow = prev }
+        return () => {
+            document.body.style.overflow = prev
+        }
     }, [isModalOpen])
 
     // Focus first field on open
@@ -38,102 +44,114 @@ export default function ContactModal() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (!name.trim() || !email.trim() || !message.trim()) {
-            Swal.fire({ icon: 'warning', title: 'Oops...', text: 'Please fill in all fields.' })
+            notify('warning', t('contact.fillAll') || 'Please fill in all fields.')
             return
         }
         if (!validateEmail(email)) {
-            Swal.fire({ icon: 'warning', title: 'Oops...', text: 'Please enter a valid email address.' })
+            notify('warning', t('contact.invalidEmail') || 'Please enter a valid email address.')
             return
         }
 
         setIsSubmitting(true)
         try {
-            await emailjs.send('geuphmh','l6p2mq8222',{ name, email, message, rating },'Xh3WhTefsno6bxN5J')
-            Swal.fire({ icon: 'success', title: 'Success!', text: 'Message sent successfully!' })
-            setIsModalOpen(false)           // ❗ փակել և անմիջապեսUnmount
+            await emailjs.send(
+                'geuphmh',
+                'l6p2mq8222',
+                { name, email, message, rating },
+                'Xh3WhTefsno6bxN5J'
+            )
+            notify('success', t('contact.sent') || 'Message sent successfully!')
+            setIsModalOpen(false)
             setName(''); setEmail(''); setMessage(''); setRating(0)
         } catch (err) {
-            Swal.fire({ icon: 'error', title: 'Oops...', text: 'Failed to send message. Please try again later.' })
+            notify('error', t('contact.failed') || 'Failed to send message. Please try again later.')
         } finally {
             setIsSubmitting(false)
         }
     }
 
-    // --- UI ---
     return (
         <>
-            {/* Trigger — pill button (button variant of PillLink) */}
+            {/* Toast container */}
+            <Toast
+                open={toast.open}
+                type={toast.type}
+                message={toast.message}
+                onClose={() => setToast((p) => ({ ...p, open: false }))}
+                ms={2400}
+            />
+
+            {/* Trigger — pill button */}
             <PillLink
                 size="md"
                 icon={<MdOutlineMessage />}
                 onClick={() => setIsModalOpen(true)}
                 className="!min-w-[44px]"
             >
-                <span className="hidden sm:inline">{t("nav.contact")}</span>
+                <span className="hidden sm:inline">{t('nav.contact')}</span>
             </PillLink>
 
-            {/* Render modal ONLY when open; via portal so it's always on top */}
+            {/* Modal via portal */}
             {isModalOpen && createPortal(
                 <ModalShell onClose={() => setIsModalOpen(false)}>
                     <div
                         ref={dialogRef}
                         className="relative w-full max-w-sm max-h-[85vh] overflow-hidden
-                       rounded-2xl border border-white/10
-                       bg-white/60 dark:bg-black/50 backdrop-blur-2xl shadow-2xl"
+              rounded-2xl border border-white/10
+              bg-white/60 dark:bg-black/50 backdrop-blur-2xl shadow-2xl"
                         role="dialog" aria-modal="true" aria-labelledby="contact-title"
                     >
-                        {/* gradient ring */}
-                        <span
-                            className="pointer-events-none absolute -inset-[1px] rounded-2xl -z-10"
-                            style={{ background: 'linear-gradient(135deg, rgba(99,102,241,.35), rgba(34,211,238,.35))' }}
-                        />
+            <span
+                className="pointer-events-none absolute -inset-[1px] rounded-2xl -z-10"
+                style={{ background: 'linear-gradient(135deg, rgba(99,102,241,.35), rgba(34,211,238,.35))' }}
+            />
 
-                        {/* Header */}
                         <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-                            <h2 id="contact-title" className="text-lg font-semibold">Contact Us</h2>
+                            <h2 id="contact-title" className="text-lg font-semibold">{t('contact.title') || 'Contact Us'}</h2>
                             <button
                                 onClick={() => setIsModalOpen(false)}
                                 className="h-9 w-9 inline-flex items-center justify-center rounded-xl
-                           bg-zinc-200/60 dark:bg-zinc-700/60
-                           border border-zinc-300/60 dark:border-zinc-600/60 hover:shadow-soft"
+                  bg-zinc-200/60 dark:bg-zinc-700/60
+                  border border-zinc-300/60 dark:border-zinc-600/60 hover:shadow-soft"
                                 aria-label="Close modal"
                             >
                                 ×
                             </button>
                         </div>
 
-                        {/* Form */}
                         <form onSubmit={handleSubmit} className="p-4 space-y-3">
                             <Input
                                 ref={firstFieldRef}
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="Your Name"
+                                placeholder={t('contact.name') || 'Your Name'}
                                 autoComplete="name"
                             />
                             <Input
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Your Email"
+                                placeholder={t('contact.email') || 'Your Email'}
                                 autoComplete="email"
                             />
                             <Textarea
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
-                                placeholder="Your Message"
+                                placeholder={t('contact.message') || 'Your Message'}
                                 rows={4}
                             />
 
                             {/* Rating */}
                             <div className="text-center">
-                                <p className="text-sm text-zinc-600 dark:text-zinc-400">Rate your experience:</p>
+                                <p className="text-sm text-zinc-600 dark:text-zinc-400">
+                                    {t('contact.rate') || 'Rate your experience:'}
+                                </p>
                                 <div className="mt-1 flex justify-center flex-row-reverse text-2xl cursor-pointer">
                                     {[5,4,3,2,1].map((v) => (
                                         <span
                                             key={v}
                                             className={`mx-1 ${rating >= v ? 'text-yellow-400' : 'text-zinc-400'}
-                                  hover:text-yellow-400 transition-transform hover:scale-110`}
+                        hover:text-yellow-400 transition-transform hover:scale-110`}
                                             onClick={() => setRating(v)}
                                             aria-label={`Rate ${v}`}
                                         >
@@ -142,7 +160,8 @@ export default function ContactModal() {
                                     ))}
                                 </div>
                                 <p className="mt-1 text-xs text-zinc-500">
-                                    Your rating: <span className="font-semibold text-yellow-400">{rating}</span>
+                                    {t('contact.yourRating') || 'Your rating:'}{' '}
+                                    <span className="font-semibold text-yellow-400">{rating}</span>
                                 </p>
                             </div>
 
@@ -152,20 +171,20 @@ export default function ContactModal() {
                                     type="submit"
                                     disabled={isSubmitting}
                                     className="flex-1 h-10 rounded-xl text-white bg-btn-gradient hover:opacity-90 disabled:opacity-60
-                             inline-flex items-center justify-center gap-2"
+                    inline-flex items-center justify-center gap-2"
                                 >
                                     {isSubmitting && (
                                         <span className="border-2 border-white/30 border-t-white rounded-full w-4 h-4 animate-spin" />
                                     )}
-                                    {isSubmitting ? 'Sending...' : 'Send'}
+                                    {isSubmitting ? (t('contact.sending') || 'Sending...') : (t('contact.send') || 'Send')}
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
                                     className="h-10 px-4 rounded-xl border border-white/10 bg-white/40 dark:bg-black/30
-                             hover:bg-white/60 dark:hover:bg-black/50"
+                    hover:bg-white/60 dark:hover:bg-black/50"
                                 >
-                                    Close
+                                    {t('common.close') || 'Close'}
                                 </button>
                             </div>
                         </form>
@@ -177,11 +196,10 @@ export default function ContactModal() {
     )
 }
 
-/* A portal shell that centers content and handles backdrop + outside/Escape close */
+/* ModalShell stays the same */
 function ModalShell({ children, onClose }) {
     const containerRef = useRef(null)
 
-    // Close on outside click (container catches clicks; child dialog stops propagation)
     useEffect(() => {
         const onKey = (e) => e.key === 'Escape' && onClose()
         document.addEventListener('keydown', onKey)
@@ -189,22 +207,9 @@ function ModalShell({ children, onClose }) {
     }, [onClose])
 
     return (
-        <div className="fixed inset-0 z-[9999] inset-0 bg-black/60 backdrop-blur-sm">
-            {/* Backdrop */}
-            <div
-                className="absolute top-[200px] "
-                onClick={onClose}
-                aria-hidden
-            />
-            {/* Centered container */}
-            <div
-                ref={containerRef}
-                className="relative grid place-items-center min-h-[100dvh] px-4"
-            >
-                {/* stop click bubbling so outside-click works */}
-                <div onClick={(e) => e.stopPropagation()}>
-                    {children}
-                </div>
+        <div className="fixed inset-0 z-[9999] inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose}>
+            <div className="relative grid place-items-center min-h-[100dvh] px-4" onClick={(e) => e.stopPropagation()}>
+                {children}
             </div>
         </div>
     )
@@ -217,11 +222,11 @@ const Input = React.forwardRef(function Input({ className = '', ...props }, ref)
             ref={ref}
             {...props}
             className={`w-full h-10 px-3 rounded-xl
-                  bg-black/20 dark:bg-white/5 text-zinc-900 dark:text-white
-                  border border-white/10 outline-none
-                  focus:ring-2 focus:ring-accent-400 focus:border-transparent
-                  placeholder:text-zinc-500 dark:placeholder:text-zinc-400
-                  backdrop-blur ${className}`}
+        bg-black/20 dark:bg-white/5 text-zinc-900 dark:text-white
+        border border-white/10 outline-none
+        focus:ring-2 focus:ring-accent-400 focus:border-transparent
+        placeholder:text-zinc-500 dark:placeholder:text-zinc-400
+        backdrop-blur ${className}`}
         />
     )
 })
@@ -231,11 +236,11 @@ function Textarea({ className = '', ...props }) {
         <textarea
             {...props}
             className={`w-full px-3 py-2 rounded-xl resize-none
-                  bg-black/20 dark:bg-white/5 text-zinc-900 dark:text-white
-                  border border-white/10 outline-none
-                  focus:ring-2 focus:ring-accent-400 focus:border-transparent
-                  placeholder:text-zinc-500 dark:placeholder:text-zinc-400
-                  backdrop-blur ${className}`}
+        bg-black/20 dark:bg-white/5 text-zinc-900 dark:text-white
+        border border-white/10 outline-none
+        focus:ring-2 focus:ring-accent-400 focus:border-transparent
+        placeholder:text-zinc-500 dark:placeholder:text-zinc-400
+        backdrop-blur ${className}`}
         />
     )
 }

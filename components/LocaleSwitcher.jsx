@@ -15,6 +15,19 @@ export default function LocaleSwitcher() {
     const [mounted, setMounted] = useState(false)
     const [open, setOpen] = useState(false)
     const boxRef = useRef(null)
+    const [menuW, setMenuW] = useState(null)
+    const triggerRef = useRef(null)
+
+// երբ բացվում է dropdown-ը կամ resize է լինում — չափենք
+    useEffect(() => {
+        if (!open) return
+        const measure = () => {
+            if (triggerRef.current) setMenuW(triggerRef.current.offsetWidth)
+        }
+        measure()
+        window.addEventListener('resize', measure)
+        return () => window.removeEventListener('resize', measure)
+    }, [open])
 
     useEffect(() => { setMounted(true) }, [])
 
@@ -54,8 +67,8 @@ export default function LocaleSwitcher() {
                    hover:shadow-soft transition-all w-[120px] h-9 relative"
             >
         <span className="absolute inset-0 -z-10 rounded-full"
-              style={{ padding: 2, background: 'linear-gradient(135deg, rgba(99,102,241,.35), rgba(34,211,238,.35))' }} />
-                <span className="absolute inset-[2px] rounded-full bg-white/50 dark:bg-black/40 backdrop-blur-sm" />
+              style={{padding: 2, background: 'linear-gradient(135deg, rgba(99,102,241,.35), rgba(34,211,238,.35))'}}/>
+                <span className="absolute inset-[2px] rounded-full bg-white/50 dark:bg-black/40 backdrop-blur-sm"/>
                 <div className="relative z-10 flex w-full justify-between items-center px-1">
                     {langs.map((l) => {
                         const active = current.startsWith(l.code)
@@ -68,7 +81,7 @@ export default function LocaleSwitcher() {
                             >
                                 {active && (
                                     <span className="absolute inset-0 rounded-full -z-10 transition-all duration-300
-                                   bg-gradient-to-br from-brand-500 to-accent-400" />
+                                   bg-gradient-to-br from-brand-500 to-accent-400"/>
                                 )}
                                 {l.label}
                             </button>
@@ -80,16 +93,20 @@ export default function LocaleSwitcher() {
             {/* Mobile */}
             <div ref={boxRef} className="sm:hidden relative">
                 <button
+                    ref={triggerRef}                 // ⬅️ attach ref
                     onClick={() => setOpen(v => !v)}
                     aria-haspopup="listbox"
                     aria-expanded={open}
                     className="inline-flex items-center justify-between gap-2 rounded-full
-                     bg-zinc-200/60 dark:bg-zinc-700/60 border border-zinc-300/60 dark:border-zinc-600/60
-                     hover:shadow-soft transition-all px-3 h-9 min-w-[72px] relative"
+               bg-zinc-200/60 dark:bg-zinc-700/60 border border-zinc-300/60 dark:border-zinc-600/60
+               hover:shadow-soft transition-all px-3 h-9 min-w-[72px] relative"
                 >
           <span className="absolute inset-0 -z-10 rounded-full"
-                style={{ padding: 2, background: 'linear-gradient(135deg, rgba(99,102,241,.35), rgba(34,211,238,.35))' }} />
-                    <span className="absolute inset-[2px] rounded-full bg-white/50 dark:bg-black/40 backdrop-blur-sm" />
+                style={{
+                    padding: 2,
+                    background: 'linear-gradient(135deg, rgba(99,102,241,.35), rgba(34,211,238,.35))'
+                }}/>
+                    <span className="absolute inset-[2px] rounded-full bg-white/50 dark:bg-black/40 backdrop-blur-sm"/>
                     <span className="relative z-10 text-xs font-semibold text-zinc-800 dark:text-zinc-100">
             {currentLang.label}
           </span>
@@ -99,8 +116,9 @@ export default function LocaleSwitcher() {
                 {mounted && open && (
                     <ul
                         role="listbox"
-                        className="absolute right-0 mt-2 w-28 rounded-xl border border-white/10
-                       bg-white/90 dark:bg-black/70 backdrop-blur-xl shadow-lg p-1 z-50"
+                        className="absolute right-0 mt-2 rounded-xl border border-white/10
+                 bg-white/90 dark:bg-black/70 backdrop-blur-xl shadow-lg p-1 z-50"
+                        style={{ width: menuW ?? undefined }}     // ⬅️ match button width
                     >
                         {langs.map((l) => (
                             <li key={l.code}>
@@ -108,9 +126,9 @@ export default function LocaleSwitcher() {
                                     role="option"
                                     aria-selected={current.startsWith(l.code)}
                                     onClick={() => changeLanguage(l.code)}
-                                    className={`w-full text-left text-sm px-3 py-2 rounded-lg
-                             hover:bg-zinc-100/80 dark:hover:bg-zinc-800/60
-                             ${current.startsWith(l.code) ? 'font-semibold' : ''}`}
+                                    className={`w-full text-center text-sm px-3 py-2 rounded-lg
+                        hover:bg-zinc-100/80 dark:hover:bg-zinc-800/60
+                        ${current.startsWith(l.code) ? 'font-semibold' : ''}`}
                                 >
                                     {l.label}
                                 </button>

@@ -7,6 +7,7 @@ import { ThemeProvider } from 'next-themes'
 import Script from 'next/script'
 import Header from "../components/Header";
 import I18nProvider from "../lib/I18nProvider";
+import PwaInstallModal from "@/components/PwaInstallModal";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -84,6 +85,7 @@ export default function RootLayout({ children }) {
             {children}
             <Analytics/>
             <SpeedInsights />
+            <PwaInstallModal/>
         </ThemeProvider>
         </I18nProvider>
 
