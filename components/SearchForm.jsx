@@ -16,7 +16,7 @@ export default function SearchBar({
     return (
         <form
             onSubmit={handleSearch}
-            className="relative flex items-center min-w-0 flex-1 h-9 group"
+            className="relative flex items-center flex-1 h-9 min-w-0 group"
         >
             {/* Gradient Halo */}
             <span
@@ -56,7 +56,7 @@ export default function SearchBar({
 
                 <button
                     type="submit"
-                    className="text-zinc-600 dark:text-zinc-300 hover:text-accent-400 transition"
+                    className="absolute right-3 text-zinc-600 dark:text-zinc-300 hover:text-accent-400 transition"
                 >
                     <FiSearch className="text-base"/>
                 </button>

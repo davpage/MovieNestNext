@@ -39,8 +39,8 @@ export default function Header({
                 </Link>
 
                 {/* SEARCH bar center */}
-                <div className="flex justify-center">
-                    {pathname !== '/about' &&  <SearchBar
+                <div className="flex justify-center flex-1 min-w-0">
+                    {pathname !== '/about' && <SearchBar
                         searchInput={searchInput}
                         setSearchInput={setSearchInput}
                         handleSearch={handleSearch}
