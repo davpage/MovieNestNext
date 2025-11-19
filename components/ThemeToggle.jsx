@@ -18,7 +18,7 @@ export default function ThemeToggle() {
                   bg-zinc-200/60 dark:bg-zinc-700/60
                   border border-zinc-300/60 dark:border-zinc-600/60
                   hover:shadow-soft transition-all`}
-            style={{ width: 80, height: 36 }}
+            style={{ width: 80, height: 38 }}
         >
             {/* gradient border halo */}
             <span className="absolute inset-0 -z-10 rounded-full"
@@ -30,10 +30,10 @@ export default function ThemeToggle() {
 
             {/* thumb */}
             <span
-                className={`absolute top-1 left-1 h-8 w-8 translate-y-[-2px]
+                className={`absolute ml-1 h-8 w-8
                     rounded-full shadow-glass flex items-center justify-center
                     transition-all duration-300
-                    ${isDark ? 'translate-x-[42px] bg-gradient-to-br from-accent-400 to-flame-400' : 'translate-x-0 bg-gradient-to-br from-brand-500 to-accent-500'}`}
+                    ${isDark ? 'translate-x-[40px] bg-gradient-to-br from-accent-400 to-flame-400' : 'translate-x-0 bg-gradient-to-br from-brand-500 to-accent-500'}`}
                 style={{ height: 30, width: 30 }}
             >
         <span className="text-base">{isDark ? '🌙' : '☀️'}</span>

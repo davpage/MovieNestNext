@@ -88,7 +88,7 @@ export default function ContactModal() {
                 onClick={() => setIsModalOpen(true)}
                 className="!min-w-[44px]"
             >
-                <span className="hidden sm:inline">{t('nav.contact')}</span>
+            {t('nav.contact')}
             </PillLink>
 
             {/* Modal via portal */}

@@ -1,81 +1,66 @@
 'use client'
-import { useTranslation } from 'react-i18next'
-import { FiSearch } from 'react-icons/fi'
-import { IoMdClose } from 'react-icons/io'
+import { FiSearch } from "react-icons/fi";
+import { IoMdClose } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
-export default function SearchForm({
-                                       searchInput,
-                                       setSearchInput,
-                                       handleSearch,
-                                       handleCloseFilm,
-                                       iframeSrc,
-                                       loading,
-                                   }) {
-    const { t } = useTranslation()
+export default function SearchBar({
+                                      searchInput,
+                                      setSearchInput,
+                                      handleSearch,
+                                      handleCloseFilm,
+                                      iframeSrc,
+                                      loading,
+                                  }) {
+    const { t } = useTranslation();
 
     return (
-        <form onSubmit={handleSearch} className="w-full flex gap-2 items-center">
-            <div className="relative flex-1 group">
-                {/* gradient border with mask trick */}
-                <div className="absolute -inset-[1px] rounded-2xl bg-border-gradient opacity-60 group-hover:opacity-100 transition"></div>
+        <form
+            onSubmit={handleSearch}
+            className="relative flex items-center min-w-0 flex-1 h-9 group"
+        >
+            {/* Gradient Halo */}
+            <span
+                className="absolute inset-0 -z-10 rounded-full"
+                style={{
+                    padding: 2,
+                    background:
+                        "linear-gradient(135deg, rgba(99,102,241,.35), rgba(34,211,238,.35))",
+                }}
+            />
 
+            {/* Glass background */}
+            <span className="absolute inset-[2px] rounded-full bg-white/60 dark:bg-black/40 backdrop-blur-sm" />
+
+            <div className="relative z-10 flex items-center w-full min-w-0 px-2 gap-2">
                 <input
-                    id="search"
                     type="text"
                     value={searchInput}
-                    onChange={(e) => setSearchInput(e.target.value)}
-                    placeholder={t('search.placeholder')}
-                    className="relative flex-1 w-full p-3 pr-12 text-base sm:text-lg
-                     rounded-2xl border border-white/10
-                     bg-gloss dark:bg-gloss backdrop-blur-lg
-                     text-zinc-900 dark:text-white
-                     focus:outline-none focus:ring-2 focus:ring-accent-400"
-                    required
+                    onChange={(e) => {
+                        const text = e.target.value;
+
+                        // extract KP ID dynamically as user types or pastes
+                        const match = text.match(/(\d+)/);
+                        if (text.includes("kinopoisk.ru") && match) {
+                            setSearchInput(match[1]); // show only ID
+                        } else {
+                            setSearchInput(text);
+                        }
+                    }}
+                    placeholder="Search"
+                    className="relative z-10 flex-1 px-3 py-1.5 pr-10 bg-transparent
+           text-sm text-zinc-900 dark:text-white
+           placeholder:text-zinc-500 dark:placeholder:text-zinc-400
+           focus:outline-none"
                 />
 
-                {/* Desktop enter hint */}
-                <span
-                    aria-hidden
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-sm text-zinc-500 dark:text-zinc-400 hidden sm:inline"
-                    title={t('search.pressEnter')}
-                >
-          ⏎
-        </span>
 
-            </div>
-
-            {/* Search Button */}
-            <button
-                type="submit"
-                disabled={loading}
-                className="px-4 py-2 rounded-2xl text-white shadow-soft transition
-                   bg-btn-gradient hover:opacity-90 disabled:opacity-60 flex items-center justify-center"
-                title={t('search.submit')}
-            >
-                {loading ? (
-                    <span className="animate-pulse">{t('search.loading')}</span>
-                ) : (
-                    <>
-                        {/* icon only on mobile */}
-                        <FiSearch className="text-lg sm:hidden" />
-                        <span className="hidden sm:inline">{t('search.submit')}</span>
-                    </>
-                )}
-            </button>
-
-            {/* Close Button */}
-            {iframeSrc && (
                 <button
-                    type="button"
-                    onClick={handleCloseFilm}
-                    className="px-4 py-2 rounded-2xl text-white shadow-soft transition
-                     bg-btn-gradient-dark hover:opacity-90 flex items-center justify-center"
-                    title={t('search.close')}
+                    type="submit"
+                    className="text-zinc-600 dark:text-zinc-300 hover:text-accent-400 transition"
                 >
-                    <IoMdClose className="text-lg sm:hidden" />
-                    <span className="hidden sm:inline">{t('search.close')}</span>
+                    <FiSearch className="text-base"/>
                 </button>
-            )}
+            </div>
         </form>
-    )
+    );
 }

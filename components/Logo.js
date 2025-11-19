@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 export default function Logo({ w = 50, h = 34 }) {
     return (
-        <div className="relative inline-block">
+        <>
             {/* 🌞 Light Mode Logo */}
             <Image
                 src="/logo/logo-black.svg"
@@ -24,6 +24,6 @@ export default function Logo({ w = 50, h = 34 }) {
                 className="hidden dark:block transition-transform duration-300 hover:scale-105"
                 priority
             />
-        </div>
+        </>
     )
 }

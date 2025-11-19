@@ -81,7 +81,6 @@ export default function RootLayout({ children }) {
                   bg-radial-faint dark:bg-radial-strong`}>
         <I18nProvider>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-            <Header />
             {children}
             <Analytics/>
             <SpeedInsights />

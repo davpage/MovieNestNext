@@ -37,7 +37,7 @@ export default function PillLink({
             {/* content */}
             <span className="relative z-10 inline-flex items-center gap-1.5 text-zinc-800 dark:text-zinc-100">
         {icon ? <span className="text-base leading-none">{icon}</span> : null}
-                <span className="leading-none hidden sm:inline">{children}</span>
+                <span className="leading-none">{children}</span>
       </span>
 
             {/* subtle ring */}

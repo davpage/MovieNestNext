@@ -3,15 +3,30 @@
 import { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import SearchForm from '../components/SearchForm'
 import MovieList from '../components/MovieList'
 import MoviePlayer from '../components/MoviePlayer'
-import { Toast } from '../components/Toast' // ⬅️ Ավելացրու սա
+import { Toast } from '@/components/Toast'
+import Header from "@/components/Header"; // ⬅️ Ավելացրու սա
 
-const corsUrl = process.env.NEXT_PUBLIC_CORS_URL
 const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
-const kinopoiskSearchUrl = process.env.NEXT_PUBLIC_KINOPOISK_SEARCH_URL
 const ddbbUrl = process.env.NEXT_PUBLIC_DDBB_URL
+
+function extractKpId(text) {
+    if (!text) return null;
+
+    const clean = text.trim();
+
+    // pure ID typed manually
+    if (/^\d+$/.test(clean)) return clean;
+
+    // URL → extract digits
+    const match = clean.match(/kinopoisk\.ru\/film\/(\d+)/i);
+    if (match) return match[1];
+
+    return null;
+}
+
+
 
 export default function Home() {
     const { t } = useTranslation()
@@ -64,48 +79,52 @@ export default function Home() {
     }, [])
 
     const handleSearch = async (e) => {
-        e.preventDefault()
-        setLoading(true)
-        setTitle(t('home.loading'))
+        e.preventDefault();
+        setLoading(true);
+        setTitle(t("search.loading"));
 
-        if (/^\d+$/.test(searchInput) || searchInput.includes('kinopoisk')) {
-            const number = searchInput.match(/\d+/)[0]
-            const url = `${ddbbUrl}?id=${number}&n=0`
-            setIframeSrc(url)
-            localStorage.setItem('selectedURL', url)
-            localStorage.setItem('selectedName', t('home.none'))
-            setTitle(t('home.searchResults'))
-            setLoading(false)
-            return
+        const kpId = extractKpId(searchInput);
+
+        // ---- CASE 1: It's an ID → directly open film ----
+        if (kpId) {
+            const url = `${ddbbUrl}?id=${kpId}&n=0`;
+
+            setIframeSrc(url);
+            setMovieTitle(`Film ${kpId}`);
+
+            localStorage.setItem("selectedURL", url);
+            localStorage.setItem("selectedName", `Film ${kpId}`);
+
+            setLoading(false);
+            return;
         }
 
+        // ---- CASE 2: Normal search ----
         try {
-            const res = await fetch(corsUrl + kinopoiskSearchUrl + encodeURIComponent(searchInput))
-            if (!res.ok) throw new Error(`Request failed: ${res.status}`)
-            const html = await res.text()
-            const doc = new DOMParser().parseFromString(html, 'text/html')
-            const results = Array.from(doc.querySelectorAll('.search_results .element')).map((el) => {
-                const titleEl = el.querySelector('.name a.js-serp-metrika')
-                const yearEl = el.querySelector('.year')
-                const durationEl = el.querySelector('.gray')
-                const dataId = titleEl?.getAttribute('data-id')
-                return {
-                    title: titleEl?.textContent.trim() || t('home.unknown'),
-                    year: yearEl?.textContent || t('home.unknownYear'),
-                    duration: durationEl?.textContent || '',
-                    dataId,
-                    status: t('home.searchResults'),
-                }
-            })
-            setMovies(results)
-            setTitle(t('home.searchResults'))
-        } catch {
-            setTitle(t('home.reload'))
-            notify('error', `${t('alerts.oops')}: ${t('alerts.fetchFailed')}`)
+            const res = await fetch(
+                `${backendUrl}/search?q=${encodeURIComponent(searchInput)}`
+            );
+            const data = await res.json();
+
+            if (!data.results || data.results.length === 0) {
+                notify("error", t("alerts.oops"));
+                return;
+            }
+
+            const parsed = data.results.map((r) => ({
+                ...r,
+                status: t("home.searchResults"),
+            }));
+
+            setMovies(parsed);
+            setTitle(t("home.searchResults"));
+        } catch (err) {
+            notify("error", `${t("alerts.oops")}: ${t("alerts.fetchFailed")}`);
+            setTitle(t("home.reload"));
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     const handleMovieClick = async (movie, onLoadComplete) => {
         if (isLoadingMovie) return
@@ -153,6 +172,16 @@ export default function Home() {
 
     return (
         <>
+            <Header
+                searchInput={searchInput}
+                setSearchInput={setSearchInput}
+                handleSearch={handleSearch}
+                handleCloseFilm={handleCloseFilm}
+                iframeSrc={iframeSrc}
+                loading={loading}
+            />
+
+
             {/* Toast container */}
             <Toast
                 open={toast.open}
@@ -176,14 +205,7 @@ export default function Home() {
 
                 {/* right column */}
                 <section className="md:order-2 order-1 space-y-4">
-                    <SearchForm
-                        searchInput={searchInput}
-                        setSearchInput={setSearchInput}
-                        handleSearch={handleSearch}
-                        handleCloseFilm={handleCloseFilm}
-                        iframeSrc={iframeSrc}
-                        loading={loading}
-                    />
+
                     <MoviePlayer
                         iframeSrc={iframeSrc}
                         movieTitle={movieTitle}

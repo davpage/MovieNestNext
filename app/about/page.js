@@ -1,4 +1,5 @@
 import AboutContent from "../../components/AboutContent";
+import Header from "@/components/Header";
 
 export const metadata = {
     title: 'About | MovieNest',
@@ -11,6 +12,7 @@ export default function AboutPage() {
         <>
             {/* JSON-LD բլոկը թողնենք այստեղ, եթե պետք է — կարող ես թողնել ինչպես ունեիր */}
             <main className="bg-white/40 dark:bg-black/30">
+                <Header/>
                 <AboutContent />
             </main>
         </>

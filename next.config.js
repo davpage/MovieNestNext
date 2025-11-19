@@ -4,7 +4,8 @@ const nextConfig = {
         remotePatterns: [
             { protocol: 'https', hostname: 'kinogo.online', pathname: '/**' },
             { protocol: 'https', hostname: 'www.kinopoisk.ru', pathname: '/**' },
-            { protocol: 'https', hostname: 'thumb.cloud.mail.ru', pathname: '/**' }
+            { protocol: 'https', hostname: 'thumb.cloud.mail.ru', pathname: '/**' },
+            { protocol: 'https', hostname: 'avatars.mds.yandex.net', pathname: '/**' }
         ]
     },
     async headers() {
