@@ -191,7 +191,7 @@ export default function Home() {
                 ms={2400}
             />
 
-            <main className="mx-auto max-w-6xl px-4 py-4 grid grid-cols-1 md:grid-cols-[380px_1fr] gap-4">
+            <main className="mx-auto max-w-6xl px-4 pt-4  grid grid-cols-1 md:grid-cols-[380px_1fr] gap-4">
                 {/* left column */}
                 <section className="md:order-1 order-2">
                     <MovieList
