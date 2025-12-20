@@ -57,6 +57,7 @@ export default function Header({
                         <ThemeToggle/>
                         <PillLink href="/about" icon={<CiCircleInfo/>}>{t('nav.about')}</PillLink>
                         <ContactModal/>
+                        <PillLink href="https://lite.movienest.live/" target={'_blank'}>MovieNest Lite</PillLink>
                     </nav>
 
                     {/* MOBILE HAMBURGER */}
@@ -119,6 +120,8 @@ export default function Header({
                                     <PillLink href="/about" size="md" icon={<CiCircleInfo/>}>
                                         {t('nav.about')}
                                     </PillLink>
+                                    <PillLink href="https://lite.movienest.live/" target={'_blank'}>MovieNest Lite</PillLink>
+
                                     <div className={'flex gap-2'}>
                                         <LocaleSwitcher/>
                                         <ThemeToggle/>
