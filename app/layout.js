@@ -13,7 +13,7 @@ const inter = Inter({subsets: ['latin']})
 
 const site = {
     name: 'MovieNest',
-    domain: 'https://movienest.live',
+    domain: 'https://movienest.cc',
     locales: ['en', 'ru', 'am'],
     defaultLocale: 'en',
     ogImage: 'https://thumb.cloud.mail.ru/weblink/thumb/xw1/EnV1/gBfsMpWr2',
@@ -27,7 +27,7 @@ export const metadata = {
         template: '%s | MovieNest'
     },
     description:
-        'Դիտեք կամ բեռնեք նորագույն ֆիլմեր և սերիալներ անվճար, առանց գրանցման։ MovieNest.live — Ձեր կինոյի աշխարհը։',
+        'Դիտեք կամ բեռնեք նորագույն ֆիլմեր և սերիալներ անվճար, առանց գրանցման։ movienest.cc — Ձեր կինոյի աշխարհը։',
     alternates: {
         canonical: '/',
         languages: {
@@ -43,14 +43,14 @@ export const metadata = {
         siteName: 'MovieNest',
         title: 'MovieNest | Ֆիլմեր և սերիալներ առցանց հայերենով',
         description:
-            'Դիտեք նոր ֆիլմեր և սերիալներ MovieNest.live կայքում։ Առանց գովազդի, առանց գրանցման։',
+            'Դիտեք նոր ֆիլմեր և սերիալներ movienest.cc կայքում։ Առանց գովազդի, առանց գրանցման։',
         images: [{url: site.ogImage, width: 1200, height: 630, alt: 'MovieNest'}]
     },
     twitter: {
         card: 'summary_large_image',
         title: 'MovieNest | Movies & Series | Фильмы и сериалы',
         description:
-            'Watch or download the latest movies and series online. Бесплатно смотрите фильмы и сериалы на MovieNest.live.',
+            'Watch or download the latest movies and series online. Бесплатно смотрите фильмы и сериалы на movienest.cc.',
         images: [site.ogImage],
         site: site.twitter
     },

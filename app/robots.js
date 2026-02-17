@@ -1,6 +1,6 @@
 // app/robots.js
 export default function robots() {
-    const base = 'https://movienest.live'
+    const base = 'https://movienest.cc'
 
     return {
         rules: [

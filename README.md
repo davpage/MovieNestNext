@@ -15,4 +15,4 @@
 - **Styling:** Tailwind CSS / Sass
 - **Backend:** Node.js / Express.js
 
-## 🚀 Access [MovieNest](https://movienest.live/)
+## 🚀 Access [MovieNest](https://movienest.cc/)
