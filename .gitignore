@@ -11,7 +11,8 @@
 !.yarn/versions
 .yarn.lock/*
 .idea/*
-
+package-lock.json
+yarn.lock
 # testing
 /coverage
 

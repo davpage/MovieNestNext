@@ -41,7 +41,7 @@ export const metadata = {
         locale: 'hy_AM',
         url: site.domain,
         siteName: 'MovieNest',
-        title: 'MovieNest | Ֆիլմեր և սերիալներ առցանց հայերենով',
+        title: 'MovieNest | Ֆիլմեր և սերիալներ առցանց',
         description:
             'Դիտեք նոր ֆիլմեր և սերիալներ movienest.cc կայքում։ Առանց գովազդի, առանց գրանցման։',
         images: [{url: site.ogImage, width: 1200, height: 630, alt: 'MovieNest'}]
@@ -87,7 +87,6 @@ export default function RootLayout({children}) {
         <I18nProvider>
             <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
                 {children}
-                <Analytics/>
                 <SpeedInsights/>
                 <PwaInstallModal/>
             </ThemeProvider>
@@ -121,6 +120,8 @@ export default function RootLayout({children}) {
                     })
                 }}
         />
+        <Analytics/>
+
         </body>
         </html>
     )

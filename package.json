@@ -12,7 +12,7 @@
   "dependencies": {
     "@emailjs/browser": "^3.11.0",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "@vercel/analytics": "^1.5.0",
+    "@vercel/analytics": "^1.6.1",
     "@vercel/speed-insights": "^1.2.0",
     "axios": "^1.8.4",
     "i18next": "25.4.1",
